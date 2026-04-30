@@ -1,7 +1,7 @@
 import { config as dotenvConfig } from 'dotenv';
 
 // Single environment setup for this framework.
-dotenvConfig();
+dotenvConfig({ quiet: true });
 
 const toPositiveNumber = (value: string | undefined, fallback: number): number => {
   const numericValue = Number(value);

@@ -22,6 +22,9 @@ cp .env.example .env
 Key variables:
 
 - `BASE_URL`
+- `SKIP_BASE_URL_HEALTHCHECK`
+- `BASE_URL_HEALTHCHECK_RETRIES`
+- `BASE_URL_HEALTHCHECK_BACKOFF_MS`
 - `GLOBAL_TIMEOUT_MS`
 - `TEST_TIMEOUT_MS`
 - `EXPECT_TIMEOUT_MS`
@@ -37,5 +40,9 @@ npx playwright install
 
 ```bash
 npm test
+npm run test:smoke
+npm run test:regression
+npm run test:smoke:chromium
+npm run test:untagged
 npm run report
 ```

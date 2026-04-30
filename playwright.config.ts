@@ -1,76 +1,62 @@
 import { defineConfig, devices } from '@playwright/test';
 import { frameworkConfig } from './src/config/environment';
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+const isCI = Boolean(process.env.CI);
+const taggedSuitesPattern = /@smoke|@regression/;
+const suitePatterns = {
+  smoke: /@smoke\b/,
+  regression: /@regression\b/,
+} as const;
+
+const desktopBrowsers = [
+  { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+  { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+] as const;
+
+const suiteProjects = Object.entries(suitePatterns).flatMap(([suiteName, grep]) =>
+  desktopBrowsers.map((browser) => ({
+    name: `${suiteName}-${browser.name}`,
+    grep,
+    use: browser.use,
+  })),
+);
+
 export default defineConfig({
   testDir: './tests',
+  globalSetup: './src/config/global-setup.ts',
+  globalTeardown: './src/config/global-teardown.ts',
   timeout: frameworkConfig.testTimeoutMs,
   globalTimeout: frameworkConfig.globalTimeoutMs,
+  outputDir: 'test-results/artifacts',
   expect: {
     timeout: frameworkConfig.expectTimeoutMs,
   },
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  fullyParallel: !isCI,
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 2 : undefined,
+  reporter: [
+    ['list'],
+    ['html', { open: 'never', outputFolder: 'playwright-report' }],
+    ['junit', { outputFile: 'test-results/junit/results.xml' }],
+  ],
   use: {
     baseURL: frameworkConfig.baseUrl,
+    headless: true,
+    viewport: { width: 1366, height: 768 },
+    actionTimeout: 10_000,
+    navigationTimeout: 30_000,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
   },
-
-  /* Configure projects for major browsers */
   projects: [
+    ...suiteProjects,
     {
-      name: 'chromium',
+      name: 'untagged-chromium',
+      grepInvert: taggedSuitesPattern,
       use: { ...devices['Desktop Chrome'] },
     },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });

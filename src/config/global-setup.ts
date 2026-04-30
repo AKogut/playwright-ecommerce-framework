@@ -50,7 +50,9 @@ const globalSetup = async (config: FullConfig): Promise<void> => {
   }
 
   if (shouldSkipHealthCheck) {
-    console.log('[global-setup] BASE_URL health check is skipped by SKIP_BASE_URL_HEALTHCHECK=true');
+    console.log(
+      '[global-setup] BASE_URL health check is skipped by SKIP_BASE_URL_HEALTHCHECK=true',
+    );
   } else {
     const requestContext = await request.newContext();
 

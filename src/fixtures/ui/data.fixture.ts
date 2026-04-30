@@ -1,7 +1,11 @@
 import { test as base } from '@playwright/test';
 import { USERS } from '@data/users';
 import { PRODUCTS } from '@data/products';
-import { INVALID_CHECKOUT_DATA, VALID_CHECKOUT_DATA, createRandomCheckoutData } from '@data/checkout.data';
+import {
+  INVALID_CHECKOUT_DATA,
+  VALID_CHECKOUT_DATA,
+  createRandomCheckoutData,
+} from '@data/checkout.data';
 import type { CheckoutData } from '@po/checkout.page';
 
 type DataFixtures = {

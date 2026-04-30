@@ -10,7 +10,17 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@cfg": ["./src/config/environment.ts"],
+      "@po/*": ["./src/page-objects/*"],
+      "@fx/*": ["./src/fixtures/*"],
+      "@fx/ui": ["./src/fixtures/ui.fixture.ts"],
+      "@data/*": ["./src/data/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
   },
   "include": ["playwright.config.ts", "src/**/*.ts", "tests/**/*.ts"]
 }

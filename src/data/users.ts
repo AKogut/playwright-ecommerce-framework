@@ -1,10 +1,11 @@
 import type { LoginCredentials } from '@po/login.page';
+import { FrameworkError } from '@utils/error-handler';
 
 const requiredEnv = (name: string): string => {
   const value = process.env[name]?.trim();
 
   if (!value) {
-    throw new Error(`[users] Missing required env variable: ${name}`);
+    throw new FrameworkError(`[users] Missing required env variable: ${name}`, 'ENV_REQUIRED');
   }
 
   return value;

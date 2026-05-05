@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from '@po/base.page';
+import { cartSelectors } from '@selectors/cart.selectors';
 import { toProductSlug } from '@utils/product-name.util';
 
 export class CartPage extends BasePage {
@@ -10,10 +11,10 @@ export class CartPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.root = page.locator('#cart_contents_container');
-    this.title = page.locator('.title');
-    this.itemNames = page.locator('.inventory_item_name');
-    this.checkoutButton = page.locator('[data-test="checkout"]');
+    this.root = page.locator(cartSelectors.root);
+    this.title = page.locator(cartSelectors.title);
+    this.itemNames = page.locator(cartSelectors.itemNames);
+    this.checkoutButton = page.locator(cartSelectors.checkoutButton);
   }
 
   async waitUntilLoaded(): Promise<void> {
@@ -26,7 +27,7 @@ export class CartPage extends BasePage {
   }
 
   private removeButton(productName: string): Locator {
-    return this.page.locator(`[data-test="remove-${toProductSlug(productName)}"]`);
+    return this.page.locator(cartSelectors.removeButton(toProductSlug(productName)));
   }
 
   productNameItem(productName: string): Locator {

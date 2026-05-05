@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from '@po/base.page';
+import { loginSelectors } from '@selectors/login.selectors';
 
 export type LoginCredentials = {
   username: string;
@@ -15,11 +16,11 @@ export class LoginPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.root = page.locator('#root');
-    this.usernameInput = page.locator('[data-test="username"]');
-    this.passwordInput = page.locator('[data-test="password"]');
-    this.loginButton = page.locator('[data-test="login-button"]');
-    this.errorMessage = page.locator('[data-test="error"]');
+    this.root = page.locator(loginSelectors.root);
+    this.usernameInput = page.locator(loginSelectors.usernameInput);
+    this.passwordInput = page.locator(loginSelectors.passwordInput);
+    this.loginButton = page.locator(loginSelectors.loginButton);
+    this.errorMessage = page.locator(loginSelectors.errorMessage);
   }
 
   async open(): Promise<void> {

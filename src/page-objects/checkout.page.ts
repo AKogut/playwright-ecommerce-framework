@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from '@po/base.page';
+import { checkoutSelectors } from '@selectors/checkout.selectors';
 
 export type CheckoutData = {
   firstName: string;
@@ -20,15 +21,15 @@ export class CheckoutPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.title = page.locator('.title');
-    this.firstNameInput = page.locator('[data-test="firstName"]');
-    this.lastNameInput = page.locator('[data-test="lastName"]');
-    this.postalCodeInput = page.locator('[data-test="postalCode"]');
-    this.continueButton = page.locator('[data-test="continue"]');
-    this.finishButton = page.locator('[data-test="finish"]');
-    this.errorMessage = page.locator('[data-test="error"]');
-    this.totalLabel = page.locator('[data-test="total-label"]');
-    this.completeHeader = page.locator('[data-test="complete-header"]');
+    this.title = page.locator(checkoutSelectors.title);
+    this.firstNameInput = page.locator(checkoutSelectors.firstNameInput);
+    this.lastNameInput = page.locator(checkoutSelectors.lastNameInput);
+    this.postalCodeInput = page.locator(checkoutSelectors.postalCodeInput);
+    this.continueButton = page.locator(checkoutSelectors.continueButton);
+    this.finishButton = page.locator(checkoutSelectors.finishButton);
+    this.errorMessage = page.locator(checkoutSelectors.errorMessage);
+    this.totalLabel = page.locator(checkoutSelectors.totalLabel);
+    this.completeHeader = page.locator(checkoutSelectors.completeHeader);
   }
 
   async waitUntilStepOneLoaded(): Promise<void> {

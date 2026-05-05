@@ -1,6 +1,8 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { request, type FullConfig } from '@playwright/test';
+import { FrameworkError, formatErrorMessage } from '@utils/error-handler';
+import { logger } from '@utils/logger';
 
 const RUN_METADATA_PATH = path.join(process.cwd(), 'test-results', '.run-metadata.json');
 const BASE_URL_CHECK_TIMEOUT_MS = 15_000;
@@ -27,7 +29,10 @@ const resolveBaseUrl = (config: FullConfig): string => {
     return projectBaseUrl;
   }
 
-  throw new Error('Playwright baseURL is missing. Set BASE_URL in your .env file.');
+  throw new FrameworkError(
+    'Playwright baseURL is missing. Set BASE_URL in your .env file.',
+    'BASE_URL_MISSING',
+  );
 };
 
 const globalSetup = async (config: FullConfig): Promise<void> => {
@@ -46,13 +51,11 @@ const globalSetup = async (config: FullConfig): Promise<void> => {
   try {
     new URL(baseUrl);
   } catch {
-    throw new Error(`Invalid BASE_URL value: "${baseUrl}".`);
+    throw new FrameworkError(`Invalid BASE_URL value: "${baseUrl}".`, 'BASE_URL_INVALID');
   }
 
   if (shouldSkipHealthCheck) {
-    console.log(
-      '[global-setup] BASE_URL health check is skipped by SKIP_BASE_URL_HEALTHCHECK=true',
-    );
+    logger.warn('BASE_URL health check is skipped by SKIP_BASE_URL_HEALTHCHECK=true');
   } else {
     const requestContext = await request.newContext();
 
@@ -72,8 +75,9 @@ const globalSetup = async (config: FullConfig): Promise<void> => {
           const latestErrorMessage = error instanceof Error ? error.message : String(error);
 
           if (attempt === healthCheckRetries) {
-            throw new Error(
+            throw new FrameworkError(
               `BASE_URL health check failed after ${healthCheckRetries} attempts: ${latestErrorMessage}`,
+              'BASE_URL_HEALTHCHECK_FAILED',
               { cause: error },
             );
           }
@@ -100,7 +104,16 @@ const globalSetup = async (config: FullConfig): Promise<void> => {
     'utf-8',
   );
 
-  console.log(`[global-setup] Run started at ${startedAt}; baseURL: ${baseUrl}`);
+  logger.info('Run started', { startedAt, baseUrl });
 };
 
-export default globalSetup;
+export const runGlobalSetup = async (config: FullConfig): Promise<void> => {
+  try {
+    await globalSetup(config);
+  } catch (error) {
+    logger.error('Global setup failed', { error: formatErrorMessage(error) });
+    throw error;
+  }
+};
+
+export default runGlobalSetup;

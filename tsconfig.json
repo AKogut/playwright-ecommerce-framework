@@ -19,7 +19,8 @@
       "@fx/*": ["./src/fixtures/*"],
       "@fx/ui": ["./src/fixtures/ui.fixture.ts"],
       "@data/*": ["./src/data/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@selectors/*": ["./src/selectors/*"]
     }
   },
   "include": ["playwright.config.ts", "src/**/*.ts", "tests/**/*.ts"]

@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from '@po/base.page';
+import { productsSelectors } from '@selectors/products.selectors';
 import { toProductSlug } from '@utils/product-name.util';
 
 export class ProductsPage extends BasePage {
@@ -13,13 +14,13 @@ export class ProductsPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.root = page.locator('#inventory_container');
-    this.title = page.locator('.title');
-    this.inventoryList = page.locator('.inventory_list');
-    this.inventoryItems = page.locator('.inventory_item');
-    this.cartLink = page.locator('.shopping_cart_link');
-    this.menuButton = page.locator('#react-burger-menu-btn');
-    this.logoutLink = page.locator('#logout_sidebar_link');
+    this.root = page.locator(productsSelectors.root);
+    this.title = page.locator(productsSelectors.title);
+    this.inventoryList = page.locator(productsSelectors.inventoryList);
+    this.inventoryItems = page.locator(productsSelectors.inventoryItems);
+    this.cartLink = page.locator(productsSelectors.cartLink);
+    this.menuButton = page.locator(productsSelectors.menuButton);
+    this.logoutLink = page.locator(productsSelectors.logoutLink);
   }
 
   async waitUntilLoaded(): Promise<void> {
@@ -33,11 +34,11 @@ export class ProductsPage extends BasePage {
   }
 
   private addToCartButton(productName: string): Locator {
-    return this.page.locator(`[data-test="add-to-cart-${toProductSlug(productName)}"]`);
+    return this.page.locator(productsSelectors.addToCartButton(toProductSlug(productName)));
   }
 
   private removeFromCartButton(productName: string): Locator {
-    return this.page.locator(`[data-test="remove-${toProductSlug(productName)}"]`);
+    return this.page.locator(productsSelectors.removeFromCartButton(toProductSlug(productName)));
   }
 
   async addProductToCart(productName: string): Promise<void> {

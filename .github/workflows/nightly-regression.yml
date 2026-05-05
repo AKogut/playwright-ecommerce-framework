@@ -1,0 +1,43 @@
+name: Regression Run
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  regression:
+    timeout-minutes: 45
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://www.saucedemo.com/
+      STANDARD_USER_USERNAME: standard_user
+      STANDARD_USER_PASSWORD: secret_sauce
+      LOCKED_USER_USERNAME: locked_out_user
+      LOCKED_USER_PASSWORD: secret_sauce
+      PROBLEM_USER_USERNAME: problem_user
+      PROBLEM_USER_PASSWORD: secret_sauce
+      PERFORMANCE_USER_USERNAME: performance_glitch_user
+      PERFORMANCE_USER_PASSWORD: secret_sauce
+      SKIP_BASE_URL_HEALTHCHECK: false
+      BASE_URL_HEALTHCHECK_RETRIES: 3
+      BASE_URL_HEALTHCHECK_BACKOFF_MS: 2000
+      GLOBAL_TIMEOUT_MS: 600000
+      TEST_TIMEOUT_MS: 30000
+      EXPECT_TIMEOUT_MS: 5000
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run full regression tests
+        run: npm run test:regression

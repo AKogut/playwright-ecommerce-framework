@@ -6,6 +6,8 @@ export const checkoutSelectors = {
   continueButton: '[data-test="continue"]',
   finishButton: '[data-test="finish"]',
   errorMessage: '[data-test="error"]',
+  itemTotalLabel: '[data-test="subtotal-label"]',
+  taxLabel: '[data-test="tax-label"]',
   totalLabel: '[data-test="total-label"]',
   completeHeader: '[data-test="complete-header"]',
 } as const;

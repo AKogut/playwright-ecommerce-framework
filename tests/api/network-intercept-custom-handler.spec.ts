@@ -1,11 +1,7 @@
 import { test, expect } from '@fx/ui';
 
-test('network intercept can use custom route handler @regression', async ({
-  auth,
-  page,
-  network,
-}) => {
-  await auth.loginAsStandardUser();
+test('network intercept can use custom route handler @regression', async ({ page, network }) => {
+  await page.goto('/');
 
   await network.mock('**/api/test-echo', async (route) => {
     await route.fulfill({

@@ -1,7 +1,7 @@
 import { test, expect } from '@fx/ui';
 
-test('network intercept can mock API response @regression', async ({ auth, page, network }) => {
-  await auth.loginAsStandardUser();
+test('network intercept can mock API response @regression', async ({ page, network }) => {
+  await page.goto('/');
 
   await network.mockJson('**/api/test-products', {
     items: [{ id: 'mock-1', name: 'Mock Backpack' }],

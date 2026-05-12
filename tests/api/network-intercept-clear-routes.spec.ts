@@ -1,11 +1,10 @@
 import { test, expect } from '@fx/ui';
 
 test('network intercept can clear routes and apply a new mock @regression', async ({
-  auth,
   page,
   network,
 }) => {
-  await auth.loginAsStandardUser();
+  await page.goto('/');
 
   await network.mockJson('**/api/test-clear-routes', {
     version: 'before-clear',

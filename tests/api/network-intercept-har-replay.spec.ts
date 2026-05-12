@@ -1,11 +1,7 @@
 import { test, expect } from '@fx/ui';
 
-test('network intercept can replay responses from HAR @regression', async ({
-  auth,
-  page,
-  network,
-}) => {
-  await auth.loginAsStandardUser();
+test('network intercept can replay responses from HAR @regression', async ({ page, network }) => {
+  await page.goto('/');
 
   await network.replayHar('tests/api/fixtures/mock-products.har', {
     notFound: 'fallback',

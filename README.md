@@ -32,6 +32,7 @@ src/
       pages.fixture.ts
       data.fixture.ts
       auth.fixture.ts
+      network.fixture.ts
   page-objects/
     base.page.ts
     login.page.ts
@@ -41,6 +42,10 @@ src/
   utils/
     product-name.util.ts
 tests/
+  api/
+    fixtures/
+      *.har
+    *.spec.ts (network mock/HAR examples)
   smoke/
     *.spec.ts (one test per file)
   regression/
@@ -85,6 +90,7 @@ npm test
 npm run test:smoke
 npm run test:regression
 npm run test:untagged
+npm run test:api
 ```
 
 ## Run isolated browser projects
@@ -103,3 +109,15 @@ npm run test:regression:webkit
 ```bash
 npm run report
 ```
+
+## Network intercept helpers
+
+The shared `network` fixture is available from `@fx/ui` and provides:
+
+- `network.mockJson(route, body, options?)` for API stubbing
+- `network.mock(route, handler)` for custom route handlers
+- `network.replayHar(harPath, options?)` for HAR replay
+- `network.clearRoutes()` to remove active route handlers
+
+Example test: `tests/api/network-intercept-mock-api.spec.ts`.
+HAR replay example: `tests/api/network-intercept-har-replay.spec.ts`.

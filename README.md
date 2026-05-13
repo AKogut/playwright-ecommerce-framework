@@ -110,6 +110,19 @@ npm run test:regression:webkit
 npm run report
 ```
 
+After GitHub Actions test jobs, download the **`playwright-report-<job>`** artifact, unzip it, and open `playwright-report/index.html` in a browser (no Allure CLI needed). Allure raw results remain under **`allure-results-<job>`** for `npm run report:allure:*`. If the test step failed, also download **`test-results-<job>`** and unzip it next to the report folder so screenshots, videos, and traces resolve correctly.
+
+Every workflow run also produces a merged **`allure-report-bundle`** artifact (HTML generated with `npx allure generate`).
+
+### GitHub Pages (Allure)
+
+After merge to **`main`**, the **Smoke Run** workflow deploys the merged Allure HTML site to **GitHub Pages** (job `deploy-allure-pages`). One-time repository setup:
+
+1. **Settings → Pages → Build and deployment**: set **Source** to **GitHub Actions** (not “Deploy from a branch”).
+2. Approve the **`github-pages`** environment the first time GitHub prompts for it (branch protection / deployment rules).
+
+The public site URL is shown on the successful `deploy-allure-pages` run (typically `https://<owner>.github.io/<repo>/` for project pages, depending on your Pages domain settings).
+
 ## Network intercept helpers
 
 The shared `network` fixture is available from `@fx/ui` and provides:

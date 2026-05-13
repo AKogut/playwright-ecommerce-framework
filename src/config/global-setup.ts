@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { request, type FullConfig } from '@playwright/test';
+import { buildRunEnvironmentMetadata } from './run-environment-metadata';
 import { FrameworkError, formatErrorMessage } from '@utils/error-handler';
 import { logger } from '@utils/logger';
 
@@ -91,18 +92,12 @@ const globalSetup = async (config: FullConfig): Promise<void> => {
   }
 
   await mkdir(path.dirname(RUN_METADATA_PATH), { recursive: true });
-  await writeFile(
-    RUN_METADATA_PATH,
-    JSON.stringify(
-      {
-        startedAt,
-        baseUrl,
-      },
-      null,
-      2,
-    ),
-    'utf-8',
-  );
+  const runMetadata = {
+    startedAt,
+    baseUrl,
+    ...buildRunEnvironmentMetadata(),
+  };
+  await writeFile(RUN_METADATA_PATH, JSON.stringify(runMetadata, null, 2), 'utf-8');
 
   logger.info('Run started', { startedAt, baseUrl });
 };

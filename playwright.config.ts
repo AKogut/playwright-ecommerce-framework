@@ -40,6 +40,7 @@ export default defineConfig({
     ['list'],
     ['html', { open: 'never', outputFolder: 'playwright-report' }],
     ['junit', { outputFile: 'test-results/junit/results.xml' }],
+    ['json', { outputFile: 'test-results/json/results.json' }],
   ],
   use: {
     baseURL: frameworkConfig.baseUrl,

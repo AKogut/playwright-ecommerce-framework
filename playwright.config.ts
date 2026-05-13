@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { allurePlaywrightReporter } from './src/config/allure-reporter';
 import { frameworkConfig } from './src/config/environment';
 
 const isCI = Boolean(process.env.CI);
@@ -41,6 +42,7 @@ export default defineConfig({
     ['html', { open: 'never', outputFolder: 'playwright-report' }],
     ['junit', { outputFile: 'test-results/junit/results.xml' }],
     ['json', { outputFile: 'test-results/json/results.json' }],
+    [...allurePlaywrightReporter],
   ],
   use: {
     baseURL: frameworkConfig.baseUrl,
@@ -48,6 +50,7 @@ export default defineConfig({
     viewport: { width: 1366, height: 768 },
     actionTimeout: 10_000,
     navigationTimeout: 30_000,
+    // Screenshots, video, and trace are captured only when a test fails (HTML + Allure consume TestInfo attachments).
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',

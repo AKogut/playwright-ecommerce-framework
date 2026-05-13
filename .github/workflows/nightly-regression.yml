@@ -5,8 +5,14 @@ on:
     - cron: '0 1 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   regression:
+    permissions:
+      contents: read
+      actions: write
     timeout-minutes: 45
     runs-on: ubuntu-latest
     env:
@@ -41,3 +47,83 @@ jobs:
 
       - name: Run full regression tests
         run: npm run test:regression
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ github.job }}
+          path: allure-results/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.job }}
+          path: playwright-report/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload test-results (failure media only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.job }}
+          path: test-results/
+          retention-days: 30
+          if-no-files-found: warn
+
+  allure-report:
+    name: Allure HTML report
+    needs: [regression]
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    outputs:
+      has_report: ${{ steps.merge.outputs.has_report }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download Allure raw results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: allure-results-regression
+          path: downloaded
+
+      - name: Merge results and generate Allure HTML
+        id: merge
+        run: |
+          set -euo pipefail
+          mkdir -p allure-results
+          if [ -d downloaded ]; then
+            find downloaded -type f -exec cp -f {} allure-results/ \;
+          fi
+          count="$(find allure-results -type f 2>/dev/null | wc -l | tr -d ' ')"
+          if [ "${count:-0}" -eq 0 ]; then
+            echo "has_report=false" >> "$GITHUB_OUTPUT"
+            echo "No Allure result files; skipping report generation."
+            exit 0
+          fi
+          npx allure generate ./allure-results --output ./allure-report
+          echo "has_report=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Allure HTML report bundle
+        if: steps.merge.outputs.has_report == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-bundle
+          path: allure-report/
+          retention-days: 30

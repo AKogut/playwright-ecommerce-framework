@@ -5,11 +5,19 @@ on:
     types: [submitted]
   pull_request:
     types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   smoke:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    permissions:
+      contents: read
+      actions: write
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
@@ -45,6 +53,33 @@ jobs:
       - name: Run smoke tests
         run: npm run test:smoke
 
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ github.job }}
+          path: allure-results/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.job }}
+          path: playwright-report/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload test-results (failure media only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.job }}
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: warn
+
       - name: Flaky test detection report
         if: always()
         env:
@@ -52,7 +87,10 @@ jobs:
         run: npm run report:flaky
 
   api:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    permissions:
+      contents: read
+      actions: write
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
@@ -88,8 +126,121 @@ jobs:
       - name: Run API tests
         run: npm run test:api
 
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ github.job }}
+          path: allure-results/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.job }}
+          path: playwright-report/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload test-results (failure media only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.job }}
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: warn
+
       - name: Flaky test detection report
         if: always()
         env:
           FAIL_ON_FLAKY: true
         run: npm run report:flaky
+
+  allure-report:
+    name: Allure HTML report
+    needs: [smoke, api]
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    outputs:
+      has_report: ${{ steps.merge.outputs.has_report }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download Allure raw results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: allure-results-*
+          path: downloaded
+          merge-multiple: false
+
+      - name: Merge results and generate Allure HTML
+        id: merge
+        run: |
+          set -euo pipefail
+          mkdir -p allure-results
+          if [ -d downloaded ]; then
+            find downloaded -type f -exec cp -f {} allure-results/ \;
+          fi
+          count="$(find allure-results -type f 2>/dev/null | wc -l | tr -d ' ')"
+          if [ "${count:-0}" -eq 0 ]; then
+            echo "has_report=false" >> "$GITHUB_OUTPUT"
+            echo "No Allure result files; skipping report generation."
+            exit 0
+          fi
+          npx allure generate ./allure-results --output ./allure-report
+          echo "has_report=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Allure HTML report bundle
+        if: steps.merge.outputs.has_report == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-bundle
+          path: allure-report/
+          retention-days: 14
+
+  deploy-allure-pages:
+    name: Deploy Allure to GitHub Pages
+    needs: [allure-report]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.allure-report.outputs.has_report == 'true'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: allure-github-pages
+      cancel-in-progress: false
+    permissions:
+      actions: write
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download Allure HTML report bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report-bundle
+          path: _site
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

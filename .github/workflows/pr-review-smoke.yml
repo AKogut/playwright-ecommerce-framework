@@ -19,6 +19,10 @@ jobs:
       contents: read
       actions: write
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
     runs-on: ubuntu-latest
     env:
       BASE_URL: https://www.saucedemo.com/
@@ -47,17 +51,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright browser (${{ matrix.browser }})
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Run smoke tests
-        run: npm run test:smoke
+      - name: Run smoke tests (${{ matrix.browser }})
+        run: npm run test:smoke:${{ matrix.browser }}
 
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ github.job }}
+          name: allure-results-${{ github.job }}-${{ matrix.browser }}
           path: allure-results/
           retention-days: 14
           if-no-files-found: warn
@@ -66,7 +70,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ github.job }}
+          name: playwright-report-${{ github.job }}-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 14
           if-no-files-found: warn
@@ -75,7 +79,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ github.job }}
+          name: test-results-${{ github.job }}-${{ matrix.browser }}
           path: test-results/
           retention-days: 14
           if-no-files-found: warn
@@ -92,6 +96,10 @@ jobs:
       contents: read
       actions: write
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
     runs-on: ubuntu-latest
     env:
       BASE_URL: https://www.saucedemo.com/
@@ -120,17 +128,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright browser (${{ matrix.browser }})
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Run API tests
-        run: npm run test:api
+      - name: Run API tests (${{ matrix.browser }})
+        run: npm run test:api:${{ matrix.browser }}
 
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ github.job }}
+          name: allure-results-${{ github.job }}-${{ matrix.browser }}
           path: allure-results/
           retention-days: 14
           if-no-files-found: warn
@@ -139,7 +147,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ github.job }}
+          name: playwright-report-${{ github.job }}-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 14
           if-no-files-found: warn
@@ -148,7 +156,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ github.job }}
+          name: test-results-${{ github.job }}-${{ matrix.browser }}
           path: test-results/
           retention-days: 14
           if-no-files-found: warn

@@ -14,6 +14,10 @@ jobs:
       contents: read
       actions: write
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
     runs-on: ubuntu-latest
     env:
       BASE_URL: https://www.saucedemo.com/
@@ -42,17 +46,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright browser (${{ matrix.browser }})
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Run full regression tests
-        run: npm run test:regression
+      - name: Run full regression tests (${{ matrix.browser }})
+        run: npm run test:regression:${{ matrix.browser }}
 
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ github.job }}
+          name: allure-results-${{ github.job }}-${{ matrix.browser }}
           path: allure-results/
           retention-days: 30
           if-no-files-found: warn
@@ -61,7 +65,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ github.job }}
+          name: playwright-report-${{ github.job }}-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 30
           if-no-files-found: warn
@@ -70,7 +74,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ github.job }}
+          name: test-results-${{ github.job }}-${{ matrix.browser }}
           path: test-results/
           retention-days: 30
           if-no-files-found: warn
@@ -100,8 +104,9 @@ jobs:
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: allure-results-regression
+          pattern: allure-results-regression-*
           path: downloaded
+          merge-multiple: false
 
       - name: Merge results and generate Allure HTML
         id: merge

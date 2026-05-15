@@ -1,5 +1,9 @@
 # Playwright Ecommerce Framework
 
+[![Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml)
+[![Code Quality Checks](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml)
+[![Regression Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml)
+
 Production-style Playwright + TypeScript E2E framework for SauceDemo:
 [https://www.saucedemo.com/](https://www.saucedemo.com/).
 
@@ -110,7 +114,7 @@ npm run test:regression:webkit
 npm run report
 ```
 
-After GitHub Actions test jobs, download the **`playwright-report-<job>`** artifact, unzip it, and open `playwright-report/index.html` in a browser (no Allure CLI needed). Allure raw results remain under **`allure-results-<job>`** for `npm run report:allure:*`. If the test step failed, also download **`test-results-<job>`** and unzip it next to the report folder so screenshots, videos, and traces resolve correctly.
+After GitHub Actions test jobs, download the **`playwright-report-<job>-<browser>`** artifact (for example `playwright-report-smoke-chromium`), unzip it, and open `playwright-report/index.html` in a browser (no Allure CLI needed). Allure raw results remain under **`allure-results-<job>-<browser>`** for `npm run report:allure:*`. If the test step failed, also download **`test-results-<job>-<browser>`** and unzip it next to the report folder so screenshots, videos, and traces resolve correctly. `<browser>` is one of `chromium`, `firefox`, or `webkit` from the workflow matrix.
 
 Every workflow run also produces a merged **`allure-report-bundle`** artifact (HTML generated with `npx allure generate`).
 

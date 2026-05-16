@@ -20,6 +20,8 @@ Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://w
 - [Architecture diagram and runtime flow](docs/architecture.md)
 - [Setup guide](docs/setup-guide.md)
 - [Folder structure reference](docs/folder-structure.md)
+- [Contribution guide](CONTRIBUTING.md)
+- [Demo screenshots](docs/demo-screenshots.md)
 - [UI audit for SauceDemo](docs/ui-audit-saucedemo.md)
 
 ## Quick start
@@ -35,6 +37,12 @@ npm ci
 npx playwright install
 npm run test:smoke
 ```
+
+## Demo screenshots
+
+![Login page](docs/assets/demo-login-page.png)
+![Products page](docs/assets/demo-products-page.png)
+![Checkout complete page](docs/assets/demo-checkout-complete.png)
 
 ## Useful commands
 

@@ -80,6 +80,10 @@ Key variables:
 - `TEST_TIMEOUT_MS`
 - `EXPECT_TIMEOUT_MS`
 
+## Prerequisites
+
+- Node.js 24+ (see `.nvmrc`)
+
 ## Setup
 
 ```bash

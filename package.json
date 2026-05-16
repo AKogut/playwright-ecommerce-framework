@@ -44,6 +44,9 @@
     "url": "https://github.com/AKogut/playwright-ecommerce-framework/issues"
   },
   "homepage": "https://github.com/AKogut/playwright-ecommerce-framework#readme",
+  "engines": {
+    "node": ">=24"
+  },
   "devDependencies": {
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",

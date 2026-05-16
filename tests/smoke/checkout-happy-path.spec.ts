@@ -17,7 +17,7 @@ test('checkout happy path completes order @smoke @critical', async ({
   const checkoutData = await checkoutDataFactory();
   await checkoutPage.fillAndContinue(checkoutData);
   await checkoutPage.waitUntilOverviewLoaded();
-  await expect(await checkoutPage.getTotalLabel()).toContain('Total:');
+  expect(await checkoutPage.getTotalLabel()).toContain('Total:');
   await checkoutPage.finish();
   await checkoutPage.waitUntilCompleteLoaded();
   await expect(checkoutPage.completeHeader).toHaveText('Thank you for your order!');

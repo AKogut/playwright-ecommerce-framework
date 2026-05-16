@@ -13,5 +13,5 @@ test('checkout validation for missing first name @regression', async ({
   await productsPage.openCart();
   await cartPage.proceedToCheckout();
   await checkoutPage.fillAndContinue(invalidCheckoutData.missingFirstName);
-  await expect(await checkoutPage.getErrorMessage()).toContain('First Name is required');
+  expect(await checkoutPage.getErrorMessage()).toContain('First Name is required');
 });

@@ -13,5 +13,5 @@ test('checkout validation for missing postal code @regression', async ({
   await productsPage.openCart();
   await cartPage.proceedToCheckout();
   await checkoutPage.fillAndContinue(invalidCheckoutData.missingPostalCode);
-  await expect(await checkoutPage.getErrorMessage()).toContain('Postal Code is required');
+  expect(await checkoutPage.getErrorMessage()).toContain('Postal Code is required');
 });

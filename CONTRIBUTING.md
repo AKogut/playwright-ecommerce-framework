@@ -4,6 +4,8 @@ Thanks for contributing to `playwright-ecommerce-framework`.
 
 This guide defines the expected quality bar for code, tests, and pull requests.
 
+By contributing, you agree that your contributions are licensed under the [MIT License](LICENSE).
+
 ## Development setup
 
 1. Use Node.js 24+ (project pin is in `.nvmrc`).

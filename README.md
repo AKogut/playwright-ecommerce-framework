@@ -3,6 +3,7 @@
 [![Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml)
 [![Code Quality Checks](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml)
 [![Regression Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://www.saucedemo.com/), focused on maintainability, fast feedback, and CI-ready reporting.
 
@@ -101,3 +102,7 @@ Defined in `.env.example`:
 - `GLOBAL_TIMEOUT_MS`
 - `TEST_TIMEOUT_MS`
 - `EXPECT_TIMEOUT_MS`
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

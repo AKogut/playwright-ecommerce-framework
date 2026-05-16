@@ -79,6 +79,8 @@ Reference for where framework responsibilities live and where new code should be
 |       `-- products-list-visible.spec.ts
 |-- .env.example
 |-- .nvmrc
+|-- CONTRIBUTING.md
+|-- LICENSE
 |-- playwright.config.ts
 |-- package.json
 `-- tsconfig.json

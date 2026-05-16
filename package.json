@@ -37,9 +37,17 @@
     "type": "git",
     "url": "git+https://github.com/AKogut/playwright-ecommerce-framework.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "playwright",
+    "typescript",
+    "e2e",
+    "test-automation",
+    "allure",
+    "saucedemo",
+    "qa-automation"
+  ],
+  "author": "Andrii Kohut",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AKogut/playwright-ecommerce-framework/issues"
   },

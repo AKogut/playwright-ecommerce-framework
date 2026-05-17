@@ -56,6 +56,7 @@ npm run test:api
 ## Test authoring guidelines
 
 - Tag tests with `@smoke` or `@regression` when applicable.
+- Use `@critical` only for top-priority scenarios (normally together with `@smoke`).
 - Keep one behavior per spec file where practical.
 - Add negative-path coverage for validation and edge cases.
 - For network-dependent behavior, prefer fixture-based mocking/HAR replay in `tests/api`.
@@ -65,6 +66,8 @@ To detect untagged tests:
 ```bash
 npm run test:untagged
 ```
+
+For full conventions and examples, see [docs/tag-strategy.md](docs/tag-strategy.md).
 
 ## Pull request checklist
 

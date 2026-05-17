@@ -79,6 +79,7 @@ Core suites:
 npm test
 npm run test:smoke
 npm run test:regression
+npm run test:critical
 npm run test:api
 npm run test:untagged
 ```
@@ -92,6 +93,9 @@ npm run test:smoke:webkit
 npm run test:regression:chromium
 npm run test:regression:firefox
 npm run test:regression:webkit
+npm run test:critical:chromium
+npm run test:critical:firefox
+npm run test:critical:webkit
 ```
 
 ## 6) Troubleshooting

@@ -11,16 +11,17 @@ Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://w
 
 - Stable Page Object Model with selector abstraction
 - Typed fixtures for pages, data, auth, and network mocking
-- Clear suite boundaries (`smoke`, `regression`, `api`, `untagged`)
+- Clear suite boundaries (`smoke`, `regression`, `critical`, `api`, `untagged`)
 - Health-checked global setup and metadata-driven global teardown
 - Built-in HTML, JUnit, JSON, and Allure reporting
-- CI pipelines for PR smoke checks, quality gates, and nightly regression
+- CI pipelines for PR critical/smoke checks, quality gates, and nightly regression
 
 ## Documentation
 
 - [Architecture diagram and runtime flow](docs/architecture.md)
 - [Setup guide](docs/setup-guide.md)
 - [Folder structure reference](docs/folder-structure.md)
+- [Tag strategy](docs/tag-strategy.md)
 - [Contribution guide](CONTRIBUTING.md)
 - [Demo screenshots](docs/demo-screenshots.md)
 - [UI audit for SauceDemo](docs/ui-audit-saucedemo.md)
@@ -54,6 +55,7 @@ npm test
 # suites
 npm run test:smoke
 npm run test:regression
+npm run test:critical
 npm run test:api
 npm run test:untagged
 
@@ -64,6 +66,9 @@ npm run test:smoke:webkit
 npm run test:regression:chromium
 npm run test:regression:firefox
 npm run test:regression:webkit
+npm run test:critical:chromium
+npm run test:critical:firefox
+npm run test:critical:webkit
 
 # static checks
 npm run typecheck

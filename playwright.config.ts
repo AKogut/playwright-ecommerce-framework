@@ -3,11 +3,16 @@ import { allurePlaywrightReporter } from './src/config/allure-reporter';
 import { frameworkConfig } from './src/config/environment';
 
 const isCI = Boolean(process.env.CI);
-const taggedSuitesPattern = /@smoke|@regression/;
 const suitePatterns = {
   smoke: /@smoke\b/,
   regression: /@regression\b/,
+  critical: /@critical\b/,
 } as const;
+const taggedSuitesPattern = new RegExp(
+  Object.keys(suitePatterns)
+    .map((suiteName) => `@${suiteName}\\b`)
+    .join('|'),
+);
 
 const desktopBrowsers = [
   { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

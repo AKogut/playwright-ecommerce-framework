@@ -7,6 +7,24 @@
 
 Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://www.saucedemo.com/), focused on maintainability, fast feedback, and CI-ready reporting.
 
+## Portfolio highlights
+
+- **Problem:** E-commerce E2E suites become hard to maintain when selectors, test data, and reporting logic live inside individual specs.
+- **Solution:** A layered Playwright + TypeScript framework with Page Objects, merged fixtures, tagged suites, and CI workflows that merge Allure results across browsers.
+- **Result:** Faster PR feedback (parallel critical, smoke, and API jobs), reproducible triage artifacts, and a published Allure dashboard after every merge to `main`.
+
+[![Playwright](https://img.shields.io/badge/Playwright-45ba4b?logo=playwright&logoColor=white)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Allure Report](https://img.shields.io/badge/Allure_Report-FF6B35?logo=allure&logoColor=white)](https://allurereport.org/)
+[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
+
+| Suite                      | Scenarios |
+| -------------------------- | --------: |
+| Smoke (`@smoke`)           |         6 |
+| Regression (`@regression`) |        12 |
+| API (`tests/api`)          |         5 |
+| **Total**                  |    **23** |
+
 ## What this framework gives you
 
 - Stable Page Object Model with selector abstraction
@@ -18,6 +36,7 @@ Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://w
 
 ## Documentation
 
+- [CI pipeline diagram](docs/ci-pipeline.md)
 - [Architecture diagram and runtime flow](docs/architecture.md)
 - [Setup guide](docs/setup-guide.md)
 - [Folder structure reference](docs/folder-structure.md)
@@ -78,6 +97,10 @@ npm run format
 
 ## Reports
 
+**Live Allure report (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/)
+
+If Pages is unavailable or you need a specific workflow run, open the [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml) workflow, select the run, and download the **`allure-report-bundle`** artifact (merged HTML). Extract and open `index.html` locally.
+
 ```bash
 npm run report
 npm run report:allure
@@ -90,7 +113,7 @@ During GitHub Actions runs:
 - A merged Allure HTML artifact is produced as `allure-report-bundle`.
 - On failing jobs, `test-results-<job>-<browser>` includes screenshots, videos, traces.
 
-The smoke workflow also deploys merged Allure output to GitHub Pages after merge to `main` (job `deploy-allure-pages`).
+After merge to `main`, the Smoke Run workflow deploys the merged report to GitHub Pages (`deploy-allure-pages`). See [CI pipeline diagram](docs/ci-pipeline.md) for the full flow.
 
 ## Environment variables
 

@@ -57,14 +57,14 @@ flowchart TB
 
 Full index and reading paths: **[Documentation hub](docs/README.md)**
 
-| Topic | Guide |
-| ----- | ----- |
-| Executive summary | [**Quality overview**](docs/quality-overview.md) (one-pager) |
-| Strategy & quality | [Test strategy](docs/test-strategy.md) · [Tag strategy](docs/tag-strategy.md) · [UI audit](docs/ui-audit-saucedemo.md) |
-| Engineering | [Architecture](docs/architecture.md) · [Folder structure](docs/folder-structure.md) · [CI pipeline](docs/ci-pipeline.md) |
-| Operations | [Setup guide](docs/setup-guide.md) · [Troubleshooting](docs/troubleshooting.md) |
-| Visual proof | [Demo screenshots](docs/demo-screenshots.md) |
-| Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Topic              | Guide                                                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Executive summary  | [**Quality overview**](docs/quality-overview.md) (one-pager)                                                             |
+| Strategy & quality | [Test strategy](docs/test-strategy.md) · [Tag strategy](docs/tag-strategy.md) · [UI audit](docs/ui-audit-saucedemo.md)   |
+| Engineering        | [Architecture](docs/architecture.md) · [Folder structure](docs/folder-structure.md) · [CI pipeline](docs/ci-pipeline.md) |
+| Operations         | [Setup guide](docs/setup-guide.md) · [Troubleshooting](docs/troubleshooting.md)                                          |
+| Visual proof       | [Demo screenshots](docs/demo-screenshots.md)                                                                             |
+| Contributing       | [CONTRIBUTING.md](CONTRIBUTING.md)                                                                                       |
 
 ## Quick start
 

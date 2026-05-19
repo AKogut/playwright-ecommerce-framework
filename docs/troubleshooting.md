@@ -26,19 +26,19 @@ flowchart TD
 
 ## Symptom index
 
-| Symptom | Likely cause | Section |
-| ------- | ------------ | ------- |
-| `engine` / Node version warnings | Wrong Node.js | [Node version mismatch](#node-version-mismatch) |
-| `Executable doesn't exist` | Browsers not installed | [Playwright browsers](#playwright-browsers-missing-or-outdated) |
-| Login fails for all specs | `.env` missing or wrong users | [Environment file](#env-not-loaded-or-wrong-credentials) |
-| Run aborts immediately, no tests | Health check / `BASE_URL` | [Health check fails](#base-url-health-check-fails) |
-| Run stops mid-suite, queue left | Global timeout | [Global timeout](#global-timeout-exceeded) |
-| Unexpected specs in untagged run | Missing `@smoke` / `@regression` | [Untagged tests](#untagged-tests-discovered) |
-| Passes locally, fails in CI | Timing / parallelism / env | [Flaky failures](#flaky-or-order-dependent-failures) |
-| API specs pass alone, fail in batch | Route leakage | [API interference](#api-tests-interfere-with-each-other) |
-| Commit rejected | Husky / lint | [Static analysis](#eslint-or-prettier-failures-on-commit) |
-| Empty Allure locally | No prior test run | [Allure stale](#allure-report-empty-or-stale) |
-| Cannot find trace from PR | Wrong artifact | [CI artifacts](#ci-artifacts-hard-to-find) |
+| Symptom                             | Likely cause                     | Section                                                         |
+| ----------------------------------- | -------------------------------- | --------------------------------------------------------------- |
+| `engine` / Node version warnings    | Wrong Node.js                    | [Node version mismatch](#node-version-mismatch)                 |
+| `Executable doesn't exist`          | Browsers not installed           | [Playwright browsers](#playwright-browsers-missing-or-outdated) |
+| Login fails for all specs           | `.env` missing or wrong users    | [Environment file](#env-not-loaded-or-wrong-credentials)        |
+| Run aborts immediately, no tests    | Health check / `BASE_URL`        | [Health check fails](#base-url-health-check-fails)              |
+| Run stops mid-suite, queue left     | Global timeout                   | [Global timeout](#global-timeout-exceeded)                      |
+| Unexpected specs in untagged run    | Missing `@smoke` / `@regression` | [Untagged tests](#untagged-tests-discovered)                    |
+| Passes locally, fails in CI         | Timing / parallelism / env       | [Flaky failures](#flaky-or-order-dependent-failures)            |
+| API specs pass alone, fail in batch | Route leakage                    | [API interference](#api-tests-interfere-with-each-other)        |
+| Commit rejected                     | Husky / lint                     | [Static analysis](#eslint-or-prettier-failures-on-commit)       |
+| Empty Allure locally                | No prior test run                | [Allure stale](#allure-report-empty-or-stale)                   |
+| Cannot find trace from PR           | Wrong artifact                   | [CI artifacts](#ci-artifacts-hard-to-find)                      |
 
 ---
 
@@ -46,11 +46,11 @@ flowchart TD
 
 ### Node version mismatch
 
-| | |
-| - | - |
+|              |                                                                              |
+| ------------ | ---------------------------------------------------------------------------- |
 | **Symptoms** | npm `EBADENGINE`, Playwright install errors, inconsistent `node` vs `.nvmrc` |
-| **Impact** | High — entire toolchain unreliable |
-| **Fix** | |
+| **Impact**   | High — entire toolchain unreliable                                           |
+| **Fix**      |                                                                              |
 
 ```bash
 nvm use || nvm install
@@ -64,11 +64,11 @@ npm ci
 
 ### Playwright browsers missing or outdated
 
-| | |
-| - | - |
+|              |                                                                                                 |
+| ------------ | ----------------------------------------------------------------------------------------------- |
 | **Symptoms** | `browserType.launch: Executable doesn't exist`, failures right after `@playwright/test` upgrade |
-| **Impact** | High — no tests can run |
-| **Fix** | |
+| **Impact**   | High — no tests can run                                                                         |
+| **Fix**      |                                                                                                 |
 
 ```bash
 npx playwright install
@@ -81,11 +81,11 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### `.env` not loaded or wrong credentials
 
-| | |
-| - | - |
+|              |                                                                                                         |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
 | **Symptoms** | Login assertions fail; `locked_out_user` behavior when expecting `standard_user`; “works on my machine” |
-| **Impact** | High — false negatives across smoke |
-| **Fix** | |
+| **Impact**   | High — false negatives across smoke                                                                     |
+| **Fix**      |                                                                                                         |
 
 1. `cp .env.example .env`
 2. Confirm `BASE_URL=https://www.saucedemo.com/` (or your fork)
@@ -99,11 +99,11 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### Base URL health check fails
 
-| | |
-| - | - |
+|              |                                                                                   |
+| ------------ | --------------------------------------------------------------------------------- |
 | **Symptoms** | Global setup exits; log references health check, `BASE_URL`, or retries exhausted |
-| **Impact** | Critical — zero tests execute |
-| **Fix** | |
+| **Impact**   | Critical — zero tests execute                                                     |
+| **Fix**      |                                                                                   |
 
 1. **Network:** VPN, proxy, corporate firewall blocking `BASE_URL`
 2. **Tune retries** (`.env`):
@@ -117,11 +117,11 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### Global timeout exceeded
 
-| | |
-| - | - |
+|              |                                                                     |
+| ------------ | ------------------------------------------------------------------- |
 | **Symptoms** | Playwright aborts entire run; many tests `skipped` or never started |
-| **Impact** | Medium — often local misconfiguration |
-| **Fix** | |
+| **Impact**   | Medium — often local misconfiguration                               |
+| **Fix**      |                                                                     |
 
 - Reduce scope: `npm run test:smoke:chromium`
 - Increase `GLOBAL_TIMEOUT_MS` temporarily for investigation
@@ -135,11 +135,11 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### Untagged tests discovered
 
-| | |
-| - | - |
-| **Symptoms** | `npm run test:untagged` picks up new or changed specs |
-| **Impact** | Medium — breaks tag hygiene gate |
-| **Fix** | Add `@smoke` or `@regression` to the test **title** per [Tag strategy](tag-strategy.md) |
+|              |                                                                                         |
+| ------------ | --------------------------------------------------------------------------------------- |
+| **Symptoms** | `npm run test:untagged` picks up new or changed specs                                   |
+| **Impact**   | Medium — breaks tag hygiene gate                                                        |
+| **Fix**      | Add `@smoke` or `@regression` to the test **title** per [Tag strategy](tag-strategy.md) |
 
 **Prevention:** Run `npm run test:untagged` in pre-push habit; reviewer checks tags in PR.
 
@@ -147,18 +147,18 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### Flaky or order-dependent failures
 
-| | |
-| - | - |
+|              |                                                                       |
+| ------------ | --------------------------------------------------------------------- |
 | **Symptoms** | Intermittent timeouts; different outcome local vs CI; passes on retry |
-| **Impact** | High — erodes trust in gates |
-| **Fix** | |
+| **Impact**   | High — erodes trust in gates                                          |
+| **Fix**      |                                                                       |
 
-| Step | Action |
-| ---- | ------ |
-| 1 | Replace fixed sleeps with Page Object actions and `expect` auto-wait |
-| 2 | Reproduce headed: `npx playwright test <spec> --headed --trace on` |
-| 3 | CI: download `test-results-<job>-<browser>` → open `trace.zip` in Trace Viewer |
-| 4 | Check parallel isolation — no shared files, env mutation, or static counters |
+| Step | Action                                                                         |
+| ---- | ------------------------------------------------------------------------------ |
+| 1    | Replace fixed sleeps with Page Object actions and `expect` auto-wait           |
+| 2    | Reproduce headed: `npx playwright test <spec> --headed --trace on`             |
+| 3    | CI: download `test-results-<job>-<browser>` → open `trace.zip` in Trace Viewer |
+| 4    | Check parallel isolation — no shared files, env mutation, or static counters   |
 
 **Prevention:** Follow [Test strategy — quality attributes](test-strategy.md#quality-attributes-test-design-standards); file issue if flake persists after two CI retries.
 
@@ -166,11 +166,11 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### API tests interfere with each other
 
-| | |
-| - | - |
+|              |                                                                     |
+| ------------ | ------------------------------------------------------------------- |
 | **Symptoms** | Mock routes from spec A affect spec B; order-dependent API failures |
-| **Impact** | Medium — confined to `tests/api` |
-| **Fix** | |
+| **Impact**   | Medium — confined to `tests/api`                                    |
+| **Fix**      |                                                                     |
 
 - Keep `npm run test:api` at `--workers=1` (do not parallelize API suite)
 - Call `network.clearRoutes()` when overriding routes mid-spec
@@ -182,11 +182,11 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### ESLint or Prettier failures on commit
 
-| | |
-| - | - |
+|              |                             |
+| ------------ | --------------------------- |
 | **Symptoms** | Husky pre-commit hook fails |
-| **Impact** | Low — blocks commit only |
-| **Fix** | |
+| **Impact**   | Low — blocks commit only    |
+| **Fix**      |                             |
 
 ```bash
 npm run fix
@@ -197,11 +197,11 @@ npm run typecheck
 
 ### TypeScript errors in fixtures or page objects
 
-| | |
-| - | - |
-| **Symptoms** | `tsc --noEmit` fails after extending fixtures |
-| **Impact** | Medium — PR quality gate fails |
-| **Fix** | Update `src/fixtures/ui.fixture.ts` merge types and all consumers in one changeset |
+|              |                                                                                    |
+| ------------ | ---------------------------------------------------------------------------------- |
+| **Symptoms** | `tsc --noEmit` fails after extending fixtures                                      |
+| **Impact**   | Medium — PR quality gate fails                                                     |
+| **Fix**      | Update `src/fixtures/ui.fixture.ts` merge types and all consumers in one changeset |
 
 ---
 
@@ -219,10 +219,10 @@ Config: `playwright.config.ts` → `reporter: ['html', ...]`.
 
 ### Allure report empty or stale
 
-| | |
-| - | - |
+|              |                                            |
+| ------------ | ------------------------------------------ |
 | **Symptoms** | `report:allure` shows old or empty results |
-| **Fix** | Run tests first, then generate |
+| **Fix**      | Run tests first, then generate             |
 
 ```bash
 npm run test:smoke
@@ -236,12 +236,12 @@ npm run report:allure:open
 
 **Path:** GitHub → Actions → select workflow run → **Artifacts** at bottom.
 
-| Artifact | When to use |
-| -------- | ----------- |
-| `test-results-<job>-<browser>` | **First choice** — trace, screenshot, video on failure |
-| `playwright-report-<job>-<browser>` | HTML report per shard |
-| `allure-results-<job>-<browser>` | Raw inputs for local Allure merge |
-| `allure-report-bundle` | Full merged HTML (all jobs) |
+| Artifact                            | When to use                                            |
+| ----------------------------------- | ------------------------------------------------------ |
+| `test-results-<job>-<browser>`      | **First choice** — trace, screenshot, video on failure |
+| `playwright-report-<job>-<browser>` | HTML report per shard                                  |
+| `allure-results-<job>-<browser>`    | Raw inputs for local Allure merge                      |
+| `allure-report-bundle`              | Full merged HTML (all jobs)                            |
 
 **Live dashboard (main):** [GitHub Pages Allure](https://akogut.github.io/playwright-ecommerce-framework/)
 
@@ -251,12 +251,12 @@ Pipeline reference: [CI pipeline](ci-pipeline.md).
 
 ## Debugging command reference
 
-| Goal | Command |
-| ---- | ------- |
-| Interactive exploration | `npm run test:ui` |
-| Headed + trace on one spec | `npx playwright test tests/smoke/login-valid.spec.ts --headed --trace on` |
-| Single browser project | `npm run test:regression:firefox` |
-| Flaky history (local script) | `npm run report:flaky` |
+| Goal                         | Command                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| Interactive exploration      | `npm run test:ui`                                                         |
+| Headed + trace on one spec   | `npx playwright test tests/smoke/login-valid.spec.ts --headed --trace on` |
+| Single browser project       | `npm run test:regression:firefox`                                         |
+| Flaky history (local script) | `npm run report:flaky`                                                    |
 
 ---
 

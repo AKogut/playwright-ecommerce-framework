@@ -17,13 +17,13 @@ A **layered Playwright + TypeScript framework** targeting [SauceDemo](https://ww
 
 ## At a glance
 
-| Metric | Value |
-| ------ | ----: |
-| Automated scenarios | **23** |
-| Browsers (desktop) | Chromium, Firefox, WebKit |
-| PR merge gates | `@critical` · `@smoke` · `tests/api` |
-| Nightly depth | `@regression` (12 UI + 5 network) |
-| Live report | [GitHub Pages Allure](https://akogut.github.io/playwright-ecommerce-framework/) |
+| Metric              |                                                                           Value |
+| ------------------- | ------------------------------------------------------------------------------: |
+| Automated scenarios |                                                                          **23** |
+| Browsers (desktop)  |                                                       Chromium, Firefox, WebKit |
+| PR merge gates      |                                            `@critical` · `@smoke` · `tests/api` |
+| Nightly depth       |                                               `@regression` (12 UI + 5 network) |
+| Live report         | [GitHub Pages Allure](https://akogut.github.io/playwright-ecommerce-framework/) |
 
 ---
 
@@ -60,12 +60,12 @@ flowchart LR
     N[Network mocks / HAR] -.-> B
 ```
 
-| Journey stage | PR coverage | Nightly coverage |
-| ------------- | ----------- | ---------------- |
-| Authentication | Smoke + critical | Invalid, locked, empty fields, personas |
-| Catalog / cart | Smoke | Multi-item, remove, totals |
-| Checkout | Critical happy path | Missing field validation |
-| Network layer | API specs | Same (contract stability) |
+| Journey stage  | PR coverage         | Nightly coverage                        |
+| -------------- | ------------------- | --------------------------------------- |
+| Authentication | Smoke + critical    | Invalid, locked, empty fields, personas |
+| Catalog / cart | Smoke               | Multi-item, remove, totals              |
+| Checkout       | Critical happy path | Missing field validation                |
+| Network layer  | API specs           | Same (contract stability)               |
 
 Visual proof: [Demo screenshots](demo-screenshots.md).
 
@@ -73,14 +73,14 @@ Visual proof: [Demo screenshots](demo-screenshots.md).
 
 ## Engineering maturity signals
 
-| Practice | Implementation |
-| -------- | -------------- |
-| **Separation of concerns** | Specs → fixtures → Page Objects → selectors |
-| **Deterministic targeting** | `data-test` locators ([UI audit](ui-audit-saucedemo.md)) |
-| **Environment safety** | `.env` + health-check retries in global setup |
-| **Tag hygiene** | `untagged-chromium` project catches classification gaps |
-| **Failure observability** | Screenshot, video, trace on failure; Allure in CI |
-| **Cross-browser confidence** | Matrix jobs per suite ([CI pipeline](ci-pipeline.md)) |
+| Practice                       | Implementation                                                             |
+| ------------------------------ | -------------------------------------------------------------------------- |
+| **Separation of concerns**     | Specs → fixtures → Page Objects → selectors                                |
+| **Deterministic targeting**    | `data-test` locators ([UI audit](ui-audit-saucedemo.md))                   |
+| **Environment safety**         | `.env` + health-check retries in global setup                              |
+| **Tag hygiene**                | `untagged-chromium` project catches classification gaps                    |
+| **Failure observability**      | Screenshot, video, trace on failure; Allure in CI                          |
+| **Cross-browser confidence**   | Matrix jobs per suite ([CI pipeline](ci-pipeline.md))                      |
 | **Documentation traceability** | [Coverage matrix](test-strategy.md#coverage-matrix) maps capability → spec |
 
 ---
@@ -102,11 +102,11 @@ sequenceDiagram
     Note over Pages: Live dashboard updated
 ```
 
-| Workflow | When | Outcome |
-| -------- | ---- | ------- |
-| [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml) | Every PR | Merge gate + artifacts |
-| [Code Quality](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml) | Every PR | Static analysis gate |
-| [Nightly Regression](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml) | 01:00 UTC | Depth signal |
+| Workflow                                                                                                                | When      | Outcome                |
+| ----------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------- |
+| [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml)             | Every PR  | Merge gate + artifacts |
+| [Code Quality](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml)             | Every PR  | Static analysis gate   |
+| [Nightly Regression](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml) | 01:00 UTC | Depth signal           |
 
 ---
 
@@ -122,14 +122,14 @@ sequenceDiagram
 
 ## Drill-down index
 
-| Question | Document |
-| -------- | -------- |
-| Full strategy, risk model, checklists? | [Test strategy](test-strategy.md) |
-| How are tags and projects wired? | [Tag strategy](tag-strategy.md) |
-| Repo layout and conventions? | [Folder structure](folder-structure.md) |
-| Something failed — what now? | [Troubleshooting](troubleshooting.md) |
-| All guides | [Documentation hub](README.md) |
+| Question                               | Document                                |
+| -------------------------------------- | --------------------------------------- |
+| Full strategy, risk model, checklists? | [Test strategy](test-strategy.md)       |
+| How are tags and projects wired?       | [Tag strategy](tag-strategy.md)         |
+| Repo layout and conventions?           | [Folder structure](folder-structure.md) |
+| Something failed — what now?           | [Troubleshooting](troubleshooting.md)   |
+| All guides                             | [Documentation hub](README.md)          |
 
 ---
 
-*This page is intentionally concise. Detailed tables and decision frameworks live in linked guides to avoid drift.*
+_This page is intentionally concise. Detailed tables and decision frameworks live in linked guides to avoid drift._

@@ -13,13 +13,13 @@ flowchart LR
     S2 --> DONE["/checkout-complete.html · Complete"]
 ```
 
-| Step | Route | Page Object | Representative specs |
-| ---- | ----- | ----------- | -------------------- |
-| 1 | `/` | `loginPage` | `login-valid.spec.ts` · `login-invalid-credentials.spec.ts` |
-| 2 | `/inventory.html` | `productsPage` | `products-list-visible.spec.ts` · `add-product-to-cart.spec.ts` |
-| 3 | `/cart.html` | `cartPage` | `cart-add-multiple-products.spec.ts` · `cart-remove-product.spec.ts` |
-| 4–5 | `/checkout-step-*` | `checkoutPage` | `checkout-happy-path.spec.ts` · `checkout-missing-*.spec.ts` |
-| 6 | `/checkout-complete.html` | `checkoutPage` | `checkout-happy-path.spec.ts` (`@smoke @critical`) |
+| Step | Route                     | Page Object    | Representative specs                                                 |
+| ---- | ------------------------- | -------------- | -------------------------------------------------------------------- |
+| 1    | `/`                       | `loginPage`    | `login-valid.spec.ts` · `login-invalid-credentials.spec.ts`          |
+| 2    | `/inventory.html`         | `productsPage` | `products-list-visible.spec.ts` · `add-product-to-cart.spec.ts`      |
+| 3    | `/cart.html`              | `cartPage`     | `cart-add-multiple-products.spec.ts` · `cart-remove-product.spec.ts` |
+| 4–5  | `/checkout-step-*`        | `checkoutPage` | `checkout-happy-path.spec.ts` · `checkout-missing-*.spec.ts`         |
+| 6    | `/checkout-complete.html` | `checkoutPage` | `checkout-happy-path.spec.ts` (`@smoke @critical`)                   |
 
 Selector policy for these screens: [UI audit](ui-audit-saucedemo.md).
 

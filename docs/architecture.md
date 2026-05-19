@@ -6,7 +6,7 @@ This framework follows a layered architecture where test intent is separated fro
 
 ```mermaid
 flowchart TD
-    A[Tests: smoke/regression/api] --> B[Fixture entrypoint: @fx/ui]
+    A[Tests: smoke/regression/api] --> B["Fixture entrypoint: @fx/ui"]
     B --> C[Auth fixture]
     C --> D[Pages fixture]
     C --> E[Data fixture]

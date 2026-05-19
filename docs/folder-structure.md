@@ -11,9 +11,17 @@ Reference for where framework responsibilities live and where new code should be
 |   |-- nightly-regression.yml
 |   `-- pr-review-smoke.yml
 |-- docs/
+|   |-- README.md            # documentation hub
+|   |-- quality-overview.md  # one-pager for reviewers
+|   |-- assets/              # demo screenshots
 |   |-- architecture.md
+|   |-- ci-pipeline.md
+|   |-- demo-screenshots.md
 |   |-- folder-structure.md
 |   |-- setup-guide.md
+|   |-- tag-strategy.md
+|   |-- test-strategy.md
+|   |-- troubleshooting.md
 |   `-- ui-audit-saucedemo.md
 |-- scripts/
 |   `-- flaky-report.mjs

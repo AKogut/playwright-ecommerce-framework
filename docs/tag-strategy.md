@@ -59,3 +59,5 @@ npm run test:untagged
 
 - PR workflow runs a dedicated `critical` job on Chromium as a fast merge gate.
 - Full smoke and API matrices continue to run across Chromium, Firefox, and WebKit.
+
+See [Test strategy](test-strategy.md) for suite inventory, risk prioritization, and PR exit criteria.

@@ -42,3 +42,8 @@ flowchart TD
 - Keep UI selectors centralized and explicit.
 - Keep framework-level reliability concerns in setup/teardown, not in test specs.
 - Keep network test helpers reusable and browser-agnostic.
+
+## Related docs
+
+- [Test strategy](test-strategy.md) — suites, scope, and CI alignment
+- [Troubleshooting appendix](troubleshooting.md) — common failures and debugging

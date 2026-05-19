@@ -25,6 +25,25 @@ Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://w
 | API (`tests/api`)          |         5 |
 | **Total**                  |    **23** |
 
+## Quality at a glance
+
+For reviewers and hiring managers — **[Quality overview (one-pager)](docs/quality-overview.md)** · [Live Allure report](https://akogut.github.io/playwright-ecommerce-framework/)
+
+```mermaid
+flowchart TB
+    subgraph pr["Every pull request"]
+        ST[Static gates]
+        CR["@critical · 2 · Chromium"]
+        SM["@smoke · 6 · 3 browsers"]
+        API["API · 5 · 3 browsers"]
+    end
+    subgraph night["Nightly"]
+        RG["@regression · 12 · 3 browsers"]
+    end
+    ST --> CR & SM & API
+    SM -.-> RG
+```
+
 ## What this framework gives you
 
 - Stable Page Object Model with selector abstraction
@@ -36,14 +55,16 @@ Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://w
 
 ## Documentation
 
-- [CI pipeline diagram](docs/ci-pipeline.md)
-- [Architecture diagram and runtime flow](docs/architecture.md)
-- [Setup guide](docs/setup-guide.md)
-- [Folder structure reference](docs/folder-structure.md)
-- [Tag strategy](docs/tag-strategy.md)
-- [Contribution guide](CONTRIBUTING.md)
-- [Demo screenshots](docs/demo-screenshots.md)
-- [UI audit for SauceDemo](docs/ui-audit-saucedemo.md)
+Full index and reading paths: **[Documentation hub](docs/README.md)**
+
+| Topic | Guide |
+| ----- | ----- |
+| Executive summary | [**Quality overview**](docs/quality-overview.md) (one-pager) |
+| Strategy & quality | [Test strategy](docs/test-strategy.md) · [Tag strategy](docs/tag-strategy.md) · [UI audit](docs/ui-audit-saucedemo.md) |
+| Engineering | [Architecture](docs/architecture.md) · [Folder structure](docs/folder-structure.md) · [CI pipeline](docs/ci-pipeline.md) |
+| Operations | [Setup guide](docs/setup-guide.md) · [Troubleshooting](docs/troubleshooting.md) |
+| Visual proof | [Demo screenshots](docs/demo-screenshots.md) |
+| Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ## Quick start
 
@@ -61,9 +82,22 @@ npm run test:smoke
 
 ## Demo screenshots
 
-![Login page](docs/assets/demo-login-page.png)
-![Products page](docs/assets/demo-products-page.png)
-![Checkout complete page](docs/assets/demo-checkout-complete.png)
+End-to-end journey under automation ([gallery + spec mapping](docs/demo-screenshots.md)):
+
+<figure>
+  <img src="docs/assets/demo-login-page.png" alt="SauceDemo login page with username, password, and login button" />
+  <figcaption><strong>Login (<code>/</code>)</strong> — Authentication boundary; <code>auth</code> fixture + <code>login-valid.spec.ts</code> (<code>@smoke @critical</code>).</figcaption>
+</figure>
+
+<figure>
+  <img src="docs/assets/demo-products-page.png" alt="SauceDemo product inventory grid with add-to-cart buttons" />
+  <figcaption><strong>Inventory (<code>/inventory.html</code>)</strong> — Catalog and cart entry; <code>products-list-visible</code> and <code>add-product-to-cart</code> smoke specs.</figcaption>
+</figure>
+
+<figure>
+  <img src="docs/assets/demo-checkout-complete.png" alt="SauceDemo order confirmation with thank-you message" />
+  <figcaption><strong>Order confirmation (<code>/checkout-complete.html</code>)</strong> — Purchase path terminus; <code>checkout-happy-path.spec.ts</code> (<code>@smoke @critical</code>).</figcaption>
+</figure>
 
 ## Useful commands
 

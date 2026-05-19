@@ -85,14 +85,14 @@ Selector and journey details: [UI audit for SauceDemo](ui-audit-saucedemo.md).
 flowchart TB
     subgraph L1["Layer 1 — UI E2E (majority)"]
         direction LR
-        SM[@smoke · 6 scenarios]
-        RG[@regression · 12 scenarios]
+        SM["@smoke · 6 scenarios"]
+        RG["@regression · 12 scenarios"]
     end
     subgraph L2["Layer 2 — Network contracts"]
-        API[tests/api · 5 scenarios]
+        API["tests/api · 5 scenarios"]
     end
     subgraph L3["Layer 3 — Static gates"]
-        ST[typecheck · lint · format]
+        ST["typecheck · lint · format"]
     end
     L1 --> AUT[(SauceDemo)]
     L2 --> AUT
@@ -115,10 +115,10 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    PR[Pull request] --> CR[@critical · Chromium]
-    PR --> SM[@smoke · 3 browsers]
-    PR --> API[tests/api · 3 browsers]
-    NT[Nightly 01:00 UTC] --> RG[@regression · 3 browsers]
+    PR[Pull request] --> CR["@critical · Chromium"]
+    PR --> SM["@smoke · 3 browsers"]
+    PR --> API["tests/api · 3 browsers"]
+    NT[Nightly 01:00 UTC] --> RG["@regression · 3 browsers"]
 ```
 
 | Suite          | Tag / path             | Intent                       | CI trigger       | Browsers                  |

@@ -57,6 +57,8 @@ flowchart TD
 
 ## Related docs
 
+- [Test strategy](test-strategy.md)
 - [Architecture diagram and runtime flow](architecture.md)
+- [Troubleshooting appendix](troubleshooting.md)
 - [Live Allure report](../README.md#reports) (README)
 - Workflow sources: `.github/workflows/pr-review-smoke.yml`, `.github/workflows/nightly-regression.yml`, `.github/workflows/code-quality.yml`

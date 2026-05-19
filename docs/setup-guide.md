@@ -2,6 +2,8 @@
 
 This guide is the source of truth for preparing a local environment and validating that the framework is ready to run.
 
+> **Navigation:** [Documentation hub](README.md) · **Next:** [Test strategy](test-strategy.md) after smoke passes
+
 ## 1) Prerequisites
 
 - Node.js 24+ (`.nvmrc` is pinned to `24`)
@@ -100,7 +102,4 @@ npm run test:critical:webkit
 
 ## 6) Troubleshooting
 
-- **Node mismatch**: run `nvm use` and confirm with `node --version`.
-- **Playwright browser errors**: rerun `npx playwright install`.
-- **Base URL health check fails**: verify `BASE_URL` and network access; temporarily set `SKIP_BASE_URL_HEALTHCHECK=true` only for diagnostics.
-- **No report artifacts in CI**: verify workflow artifacts from `playwright-report-*`, `allure-results-*`, and `test-results-*`.
+See the [Troubleshooting appendix](troubleshooting.md) for environment, health-check, flaky-test, and CI artifact guidance.

@@ -8,14 +8,14 @@ This document is the authoritative quality plan for the framework: what we prote
 
 ## Executive summary
 
-| Dimension            | Decision                                                                     |
-| -------------------- | ---------------------------------------------------------------------------- |
-| **Primary goal**     | Prevent regressions in revenue-critical e-commerce flows before merge        |
-| **Secondary goal**   | Maintain a fast, deterministic PR signal across desktop browsers             |
-| **Automation style** | Layered Page Objects + typed fixtures; specs stay scenario-focused           |
-| **Feedback model**   | Tiered suites (`@critical` → `@smoke` → `@regression`) with parallel CI jobs |
-| **Evidence model**   | Multi-reporter output (HTML, JUnit, JSON, Allure) + failure-only media       |
-| **Current scale**    | **23** automated scenarios across UI E2E and network isolation               |
+| Dimension            | Decision                                                                       |
+| -------------------- | ------------------------------------------------------------------------------ |
+| **Primary goal**     | Prevent regressions in revenue-critical e-commerce flows before merge          |
+| **Secondary goal**   | Maintain a fast, deterministic PR signal across desktop browsers               |
+| **Automation style** | Layered Page Objects + typed fixtures; specs stay scenario-focused             |
+| **Feedback model**   | Tiered suites (`@critical` → `@smoke` → `@regression`) with parallel CI jobs   |
+| **Evidence model**   | Multi-reporter output (HTML, JUnit, JSON, Allure) + failure-only media         |
+| **Current scale**    | **24** automated scenarios across UI E2E, accessibility, and network isolation |
 
 The framework treats SauceDemo as a **production-shaped** target: real browser automation, cross-browser matrices, health-checked environments, and published trend reports—not a demo script collection.
 
@@ -63,17 +63,18 @@ mindmap
 | **Catalog**       | Product list visibility, add/remove, multi-item cart                             |
 | **Commerce**      | Checkout happy path, field validation, total/tax assertion                       |
 | **Network layer** | Route mock, custom handler, HAR replay, route lifecycle                          |
+| **Accessibility** | Login-page WCAG smoke scan for serious and critical violations                   |
 | **Platforms**     | Desktop Chromium, Firefox, WebKit (1366×768)                                     |
 
 ### Explicitly out of scope
 
-| Area                      | Rationale                                                                           |
-| ------------------------- | ----------------------------------------------------------------------------------- |
-| Real payments / backends  | AUT is a demo storefront                                                            |
-| Visual regression / Percy | Cost vs value for training repo; selectors + functional asserts preferred           |
-| Mobile native             | Web-only mandate                                                                    |
-| a11y automation           | Not in current charter; manual audit reference in [UI audit](ui-audit-saucedemo.md) |
-| Load testing              | Separate discipline; `performance_glitch_user` used only for persona behavior       |
+| Area                           | Rationale                                                                                                             |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Real payments / backends       | AUT is a demo storefront                                                                                              |
+| Full visual regression service | Cost vs value for training repo; one opt-in login baseline is kept local                                              |
+| Mobile native                  | Web-only mandate                                                                                                      |
+| Comprehensive a11y audits      | Smoke automation covers only one login-page scan; manual audit reference remains in [UI audit](ui-audit-saucedemo.md) |
+| Load testing                   | Separate discipline; `performance_glitch_user` used only for persona behavior                                         |
 
 Selector and journey details: [UI audit for SauceDemo](ui-audit-saucedemo.md).
 
@@ -85,7 +86,7 @@ Selector and journey details: [UI audit for SauceDemo](ui-audit-saucedemo.md).
 flowchart TB
     subgraph L1["Layer 1 — UI E2E (majority)"]
         direction LR
-        SM["@smoke · 6 scenarios"]
+        SM["@smoke · 7 scenarios"]
         RG["@regression · 12 scenarios"]
     end
     subgraph L2["Layer 2 — Network contracts"]
@@ -127,6 +128,7 @@ flowchart LR
 | **Smoke**      | `@smoke`               | Core journey confidence      | PR Smoke Run     | Chromium, Firefox, WebKit |
 | **Regression** | `@regression`          | Negatives, edge cases, depth | Nightly + local  | All three                 |
 | **API**        | `tests/api`            | Network fixture contracts    | PR Smoke Run     | All three (`workers=1`)   |
+| **Visual**     | `@visual`              | Login screenshot baseline    | Local opt-in     | Chromium                  |
 | **Hygiene**    | `untagged-chromium`    | Detect missing tags          | Local / optional | Chromium                  |
 
 Tag mechanics and commands: [Tag strategy](tag-strategy.md). Pipeline diagram: [CI pipeline](ci-pipeline.md).
@@ -139,14 +141,15 @@ Full traceability from business capability → spec file → suite tag.
 
 ### Critical + smoke (PR gate)
 
-| Capability                | Spec                                                  | Tags               |
-| ------------------------- | ----------------------------------------------------- | ------------------ |
-| Valid login → inventory   | `tests/smoke/login-valid.spec.ts`                     | `@smoke @critical` |
-| Product catalog visible   | `tests/smoke/products-list-visible.spec.ts`           | `@smoke`           |
-| Add item to cart          | `tests/smoke/add-product-to-cart.spec.ts`             | `@smoke`           |
-| Checkout happy path       | `tests/smoke/checkout-happy-path.spec.ts`             | `@smoke @critical` |
-| Logout                    | `tests/smoke/logout.spec.ts`                          | `@smoke`           |
-| Alternate personas sanity | `tests/smoke/login-alternate-personas-sanity.spec.ts` | `@smoke`           |
+| Capability                | Spec                                                  | Tags                    |
+| ------------------------- | ----------------------------------------------------- | ----------------------- |
+| Valid login → inventory   | `tests/smoke/login-valid.spec.ts`                     | `@smoke @critical`      |
+| Product catalog visible   | `tests/smoke/products-list-visible.spec.ts`           | `@smoke`                |
+| Add item to cart          | `tests/smoke/add-product-to-cart.spec.ts`             | `@smoke`                |
+| Checkout happy path       | `tests/smoke/checkout-happy-path.spec.ts`             | `@smoke @critical`      |
+| Logout                    | `tests/smoke/logout.spec.ts`                          | `@smoke`                |
+| Alternate personas sanity | `tests/smoke/login-alternate-personas-sanity.spec.ts` | `@smoke`                |
+| Login accessibility smoke | `tests/smoke/login-accessibility.spec.ts`             | `@smoke @accessibility` |
 
 ### Regression (nightly depth)
 

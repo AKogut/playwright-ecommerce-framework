@@ -26,19 +26,19 @@ flowchart TD
 
 ## Symptom index
 
-| Symptom                             | Likely cause                     | Section                                                         |
-| ----------------------------------- | -------------------------------- | --------------------------------------------------------------- |
-| `engine` / Node version warnings    | Wrong Node.js                    | [Node version mismatch](#node-version-mismatch)                 |
-| `Executable doesn't exist`          | Browsers not installed           | [Playwright browsers](#playwright-browsers-missing-or-outdated) |
-| Login fails for all specs           | `.env` missing or wrong users    | [Environment file](#env-not-loaded-or-wrong-credentials)        |
-| Run aborts immediately, no tests    | Health check / `BASE_URL`        | [Health check fails](#base-url-health-check-fails)              |
-| Run stops mid-suite, queue left     | Global timeout                   | [Global timeout](#global-timeout-exceeded)                      |
-| Unexpected specs in untagged run    | Missing `@smoke` / `@regression` | [Untagged tests](#untagged-tests-discovered)                    |
-| Passes locally, fails in CI         | Timing / parallelism / env       | [Flaky failures](#flaky-or-order-dependent-failures)            |
-| API specs pass alone, fail in batch | Route leakage                    | [API interference](#api-tests-interfere-with-each-other)        |
-| Commit rejected                     | Husky / lint                     | [Static analysis](#eslint-or-prettier-failures-on-commit)       |
-| Empty Allure locally                | No prior test run                | [Allure stale](#allure-report-empty-or-stale)                   |
-| Cannot find trace from PR           | Wrong artifact                   | [CI artifacts](#ci-artifacts-hard-to-find)                      |
+| Symptom                             | Likely cause                  | Section                                                         |
+| ----------------------------------- | ----------------------------- | --------------------------------------------------------------- |
+| `engine` / Node version warnings    | Wrong Node.js                 | [Node version mismatch](#node-version-mismatch)                 |
+| `Executable doesn't exist`          | Browsers not installed        | [Playwright browsers](#playwright-browsers-missing-or-outdated) |
+| Login fails for all specs           | `.env` missing or wrong users | [Environment file](#env-not-loaded-or-wrong-credentials)        |
+| Run aborts immediately, no tests    | Health check / `BASE_URL`     | [Health check fails](#base-url-health-check-fails)              |
+| Run stops mid-suite, queue left     | Global timeout                | [Global timeout](#global-timeout-exceeded)                      |
+| Unexpected specs in untagged run    | Missing suite or overlay tag  | [Untagged tests](#untagged-tests-discovered)                    |
+| Passes locally, fails in CI         | Timing / parallelism / env    | [Flaky failures](#flaky-or-order-dependent-failures)            |
+| API specs pass alone, fail in batch | Route leakage                 | [API interference](#api-tests-interfere-with-each-other)        |
+| Commit rejected                     | Husky / lint                  | [Static analysis](#eslint-or-prettier-failures-on-commit)       |
+| Empty Allure locally                | No prior test run             | [Allure stale](#allure-report-empty-or-stale)                   |
+| Cannot find trace from PR           | Wrong artifact                | [CI artifacts](#ci-artifacts-hard-to-find)                      |
 
 ---
 
@@ -135,11 +135,11 @@ npm run test:smoke:chromium   # smoke test one project
 
 ### Untagged tests discovered
 
-|              |                                                                                         |
-| ------------ | --------------------------------------------------------------------------------------- |
-| **Symptoms** | `npm run test:untagged` picks up new or changed specs                                   |
-| **Impact**   | Medium — breaks tag hygiene gate                                                        |
-| **Fix**      | Add `@smoke` or `@regression` to the test **title** per [Tag strategy](tag-strategy.md) |
+|              |                                                                                              |
+| ------------ | -------------------------------------------------------------------------------------------- |
+| **Symptoms** | `npm run test:untagged` picks up new or changed specs                                        |
+| **Impact**   | Medium — breaks tag hygiene gate                                                             |
+| **Fix**      | Add the right suite or overlay tag to the test **title** per [Tag strategy](tag-strategy.md) |
 
 **Prevention:** Run `npm run test:untagged` in pre-push habit; reviewer checks tags in PR.
 

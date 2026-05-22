@@ -8,10 +8,9 @@ const suitePatterns = {
   regression: /@regression\b/,
   critical: /@critical\b/,
 } as const;
+const nonSuiteTags = ['accessibility', 'visual'] as const;
 const taggedSuitesPattern = new RegExp(
-  Object.keys(suitePatterns)
-    .map((suiteName) => `@${suiteName}\\b`)
-    .join('|'),
+  [...Object.keys(suitePatterns), ...nonSuiteTags].map((tagName) => `@${tagName}\\b`).join('|'),
 );
 
 const desktopBrowsers = [
@@ -62,6 +61,12 @@ export default defineConfig({
   },
   projects: [
     ...suiteProjects,
+    {
+      name: 'visual-chromium',
+      testMatch: /.*\.visual\.spec\.ts/,
+      grep: /@visual\b/,
+      use: { ...devices['Desktop Chrome'] },
+    },
     {
       name: 'untagged-chromium',
       grepInvert: taggedSuitesPattern,

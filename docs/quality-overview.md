@@ -19,7 +19,7 @@ A **layered Playwright + TypeScript framework** targeting [SauceDemo](https://ww
 
 | Metric              |                                                                           Value |
 | ------------------- | ------------------------------------------------------------------------------: |
-| Automated scenarios |                                                                          **23** |
+| Automated scenarios |                                                                          **24** |
 | Browsers (desktop)  |                                                       Chromium, Firefox, WebKit |
 | PR merge gates      |                                            `@critical` · `@smoke` · `tests/api` |
 | Nightly depth       |                                               `@regression` (12 UI + 5 network) |
@@ -34,7 +34,7 @@ flowchart TB
     subgraph gates["CI gates (every PR)"]
         ST["Static: typecheck · ESLint · Prettier"]
         CR["@critical — 2 scenarios · Chromium"]
-        SM["@smoke — 6 scenarios · 3 browsers"]
+        SM["@smoke — 7 scenarios · 3 browsers"]
         API["API/network — 5 scenarios · 3 browsers"]
     end
     subgraph nightly["Nightly signal"]
@@ -81,6 +81,7 @@ Visual proof: [Demo screenshots](demo-screenshots.md).
 | **Tag hygiene**                | `untagged-chromium` project catches classification gaps                    |
 | **Failure observability**      | Screenshot, video, trace on failure; Allure in CI                          |
 | **Cross-browser confidence**   | Matrix jobs per suite ([CI pipeline](ci-pipeline.md))                      |
+| **Focused quality checks**     | Accessibility smoke scan and opt-in login visual baseline                  |
 | **Documentation traceability** | [Coverage matrix](test-strategy.md#coverage-matrix) maps capability → spec |
 
 ---
@@ -114,7 +115,7 @@ sequenceDiagram
 
 1. Read [Portfolio highlights](../README.md#portfolio-highlights) in the README.
 2. Open the **[live Allure report](https://akogut.github.io/playwright-ecommerce-framework/)** — latest `main` smoke run.
-3. Skim the **[coverage matrix](test-strategy.md#coverage-matrix)** — 23 scenarios with file names.
+3. Skim the **[coverage matrix](test-strategy.md#coverage-matrix)** — 24 scenarios with file names.
 4. Review **[Architecture](architecture.md)** — layers and fixture model.
 5. Optional: clone, `npm ci`, `npm run test:smoke` ([Setup guide](setup-guide.md)).
 

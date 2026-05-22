@@ -20,10 +20,16 @@ Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://w
 
 | Suite                      | Scenarios |
 | -------------------------- | --------: |
-| Smoke (`@smoke`)           |         6 |
+| Smoke (`@smoke`)           |         7 |
 | Regression (`@regression`) |        12 |
 | API (`tests/api`)          |         5 |
-| **Total**                  |    **23** |
+| **Total**                  |    **24** |
+
+Operational metrics:
+
+- Smoke duration target: approximately 3-5 minutes in CI for the full browser matrix.
+- Browser matrix: Chromium, Firefox, and WebKit for smoke, regression, and API suites; critical PR gate runs Chromium.
+- Retry policy: CI retries failed tests twice; local runs use zero retries for faster feedback.
 
 ## Quality at a glance
 
@@ -34,7 +40,7 @@ flowchart TB
     subgraph pr["Every pull request"]
         ST[Static gates]
         CR["@critical · 2 · Chromium"]
-        SM["@smoke · 6 · 3 browsers"]
+        SM["@smoke · 7 · 3 browsers"]
         API["API · 5 · 3 browsers"]
     end
     subgraph night["Nightly"]
@@ -122,6 +128,11 @@ npm run test:regression:webkit
 npm run test:critical:chromium
 npm run test:critical:firefox
 npm run test:critical:webkit
+
+# focused quality checks
+npm run test:accessibility
+npm run test:visual
+npm run test:visual:update # refresh visual baseline after intentional UI changes
 
 # static checks
 npm run typecheck

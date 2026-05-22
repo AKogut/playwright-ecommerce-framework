@@ -21,6 +21,9 @@
     "test:api:chromium": "playwright test tests/api --project=regression-chromium --workers=1",
     "test:api:firefox": "playwright test tests/api --project=regression-firefox --workers=1",
     "test:api:webkit": "playwright test tests/api --project=regression-webkit --workers=1",
+    "test:accessibility": "playwright test tests/smoke/login-accessibility.spec.ts --project=smoke-chromium",
+    "test:visual": "RUN_VISUAL_TESTS=true playwright test tests/visual --project=visual-chromium",
+    "test:visual:update": "RUN_VISUAL_TESTS=true playwright test tests/visual --project=visual-chromium --update-snapshots",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "report:flaky": "node scripts/flaky-report.mjs",
@@ -60,6 +63,7 @@
     "node": ">=24"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",
     "@eslint/js": "^10.0.1",

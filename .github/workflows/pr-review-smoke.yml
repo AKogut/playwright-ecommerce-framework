@@ -386,7 +386,7 @@ jobs:
               || curl -fsSL "$PAGES_BASE/history/$f" -o "allure-results/history/$f" || true
           done
           if [ "${allure_count:-0}" -gt 0 ]; then
-            npx allure generate ./allure-results --output ./site/allure --clean
+            npx allure generate ./allure-results --output ./site/allure
           else
             echo "No Allure result files; publishing the dashboard without the Allure report."
           fi

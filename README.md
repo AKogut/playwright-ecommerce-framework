@@ -1,11 +1,20 @@
 # Playwright Ecommerce Framework
 
+[![Test health](https://img.shields.io/endpoint?url=https%3A%2F%2Fakogut.github.io%2Fplaywright-ecommerce-framework%2Fbadge.json)](https://akogut.github.io/playwright-ecommerce-framework/)
 [![Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml)
 [![Code Quality Checks](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml)
 [![Regression Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://www.saucedemo.com/), focused on maintainability, fast feedback, and CI-ready reporting.
+
+<p align="center">
+  <a href="https://akogut.github.io/playwright-ecommerce-framework/">
+    <img src="docs/assets/demo-run.gif" alt="Automated end-to-end checkout journey on SauceDemo: login, add to cart, checkout, order confirmation" width="760" />
+  </a>
+  <br/>
+  <em>Full checkout journey under automation — explore the <a href="https://akogut.github.io/playwright-ecommerce-framework/">live test-health dashboard</a>.</em>
+</p>
 
 ## Portfolio highlights
 
@@ -33,7 +42,7 @@ Operational metrics:
 
 ## Quality at a glance
 
-For reviewers and hiring managers — **[Quality overview (one-pager)](docs/quality-overview.md)** · [Live Allure report](https://akogut.github.io/playwright-ecommerce-framework/)
+For reviewers and hiring managers — **[Quality overview (one-pager)](docs/quality-overview.md)** · [Live test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) · [Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)
 
 ```mermaid
 flowchart TB
@@ -58,6 +67,8 @@ flowchart TB
 - Health-checked global setup and metadata-driven global teardown
 - Built-in HTML, JUnit, JSON, and Allure reporting
 - CI pipelines for PR critical/smoke checks, quality gates, and nightly regression
+- Living [test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) rebuilt on every merge — suite × browser status, pass-rate trend, slowest tests — plus a rich per-run job summary
+- OpenTelemetry test-intelligence via the [Flakemetry](https://github.com/AKogut/flakemetry) reporter (fail-open: local batch always, upload when configured)
 
 ## Documentation
 
@@ -142,9 +153,9 @@ npm run format
 
 ## Reports
 
-**Live Allure report (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/)
+**Live test-health dashboard (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/) — a self-contained page rebuilt on every merge, showing suite × browser status, pass-rate trend, and the slowest tests. The full **[Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)** (with history/trends) lives under `/allure/`.
 
-If Pages is unavailable or you need a specific workflow run, open the [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml) workflow, select the run, and download the **`allure-report-bundle`** artifact (merged HTML). Extract and open `index.html` locally.
+If Pages is unavailable or you need a specific workflow run, open the [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml) workflow, select the run, and download the **`site-bundle`** artifact (dashboard + merged Allure HTML). Extract and open `index.html` locally.
 
 ```bash
 npm run report
@@ -175,6 +186,7 @@ Defined in `.env.example`:
 - `GLOBAL_TIMEOUT_MS`
 - `TEST_TIMEOUT_MS`
 - `EXPECT_TIMEOUT_MS`
+- `FLAKEMETRY_ENDPOINT`, `FLAKEMETRY_TOKEN` (optional — enable Flakemetry upload; fail-open when unset)
 
 ## License
 

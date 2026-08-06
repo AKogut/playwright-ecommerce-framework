@@ -47,6 +47,10 @@ export default defineConfig({
     ['junit', { outputFile: 'test-results/junit/results.xml' }],
     ['json', { outputFile: 'test-results/json/results.json' }],
     [...allurePlaywrightReporter],
+    // Flakemetry: emits every attempt as an OpenTelemetry span so test history
+    // becomes telemetry. Always writes a local batch file; it additionally uploads
+    // when FLAKEMETRY_ENDPOINT + FLAKEMETRY_TOKEN are set (fail-open otherwise).
+    ['@flakemetry/playwright-reporter', { outputFile: 'test-results/flakemetry/run.json' }],
   ],
   use: {
     baseURL: frameworkConfig.baseUrl,

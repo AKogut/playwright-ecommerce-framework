@@ -39,6 +39,12 @@ jobs:
       HOME: /root
       # Image installs browsers here; pin it so resolution is HOME-independent.
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      # Flakemetry upload — fail-open: the reporter uploads OTel spans only when both
+      # the endpoint and token are present, and never fails the run when they are not.
+      # Set FLAKEMETRY_ENDPOINT / FLAKEMETRY_TOKEN as repo secrets to activate.
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+      FLAKEMETRY_PROJECT: akogut/playwright-ecommerce-framework
       BASE_URL: https://www.saucedemo.com/
       STANDARD_USER_USERNAME: standard_user
       STANDARD_USER_PASSWORD: secret_sauce
@@ -65,8 +71,32 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Runcritical tests (${{ matrix.browser }})
+      - name: Run critical tests (${{ matrix.browser }})
         run: npm run test:critical:${{ matrix.browser }}
+
+      - name: Test run summary
+        if: always()
+        env:
+          RUN_SUMMARY_LABEL: ${{ github.job }} · ${{ matrix.browser }}
+        run: node scripts/run-summary.mjs
+
+      - name: Upload run JSON (dashboard input)
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: run-json-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/json/results.json
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Flakemetry batch
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flakemetry-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/flakemetry/
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: Upload Allure results
         if: always()
@@ -127,6 +157,12 @@ jobs:
       HOME: /root
       # Image installs browsers here; pin it so resolution is HOME-independent.
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      # Flakemetry upload — fail-open: the reporter uploads OTel spans only when both
+      # the endpoint and token are present, and never fails the run when they are not.
+      # Set FLAKEMETRY_ENDPOINT / FLAKEMETRY_TOKEN as repo secrets to activate.
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+      FLAKEMETRY_PROJECT: akogut/playwright-ecommerce-framework
       BASE_URL: https://www.saucedemo.com/
       STANDARD_USER_USERNAME: standard_user
       STANDARD_USER_PASSWORD: secret_sauce
@@ -153,8 +189,32 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Runsmoke tests (${{ matrix.browser }})
+      - name: Run smoke tests (${{ matrix.browser }})
         run: npm run test:smoke:${{ matrix.browser }}
+
+      - name: Test run summary
+        if: always()
+        env:
+          RUN_SUMMARY_LABEL: ${{ github.job }} · ${{ matrix.browser }}
+        run: node scripts/run-summary.mjs
+
+      - name: Upload run JSON (dashboard input)
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: run-json-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/json/results.json
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Flakemetry batch
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flakemetry-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/flakemetry/
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: Upload Allure results
         if: always()
@@ -215,6 +275,12 @@ jobs:
       HOME: /root
       # Image installs browsers here; pin it so resolution is HOME-independent.
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      # Flakemetry upload — fail-open: the reporter uploads OTel spans only when both
+      # the endpoint and token are present, and never fails the run when they are not.
+      # Set FLAKEMETRY_ENDPOINT / FLAKEMETRY_TOKEN as repo secrets to activate.
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+      FLAKEMETRY_PROJECT: akogut/playwright-ecommerce-framework
       BASE_URL: https://www.saucedemo.com/
       STANDARD_USER_USERNAME: standard_user
       STANDARD_USER_PASSWORD: secret_sauce
@@ -241,8 +307,32 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: RunAPI tests (${{ matrix.browser }})
+      - name: Run API tests (${{ matrix.browser }})
         run: npm run test:api:${{ matrix.browser }}
+
+      - name: Test run summary
+        if: always()
+        env:
+          RUN_SUMMARY_LABEL: ${{ github.job }} · ${{ matrix.browser }}
+        run: node scripts/run-summary.mjs
+
+      - name: Upload run JSON (dashboard input)
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: run-json-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/json/results.json
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Flakemetry batch
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flakemetry-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/flakemetry/
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: Upload Allure results
         if: always()
@@ -277,8 +367,8 @@ jobs:
           FAIL_ON_FLAKY: true
         run: npm run report:flaky
 
-  allure-report:
-    name: Allure HTML report
+  report:
+    name: Build report site
     needs: [critical, smoke, api]
     if: always() && !cancelled()
     runs-on: ubuntu-latest
@@ -286,7 +376,10 @@ jobs:
       contents: read
       actions: write
     outputs:
-      has_report: ${{ steps.merge.outputs.has_report }}
+      has_site: ${{ steps.build.outputs.has_site }}
+    env:
+      # Live Pages base — used to seed trend/history from the previous deploy.
+      PAGES_BASE: https://akogut.github.io/playwright-ecommerce-framework
     steps:
       - uses: actions/checkout@v6
 
@@ -303,41 +396,62 @@ jobs:
         continue-on-error: true
         with:
           pattern: allure-results-*
-          path: downloaded
+          path: downloaded-allure
           merge-multiple: false
 
-      - name: Merge results and generate Allure HTML
-        id: merge
+      - name: Download run JSON reports
+        uses: actions/download-artifact@v8
+        continue-on-error: true
+        with:
+          pattern: run-json-*
+          path: downloaded-json
+          merge-multiple: false
+
+      - name: Build combined site (dashboard + Allure)
+        id: build
         run: |
           set -euo pipefail
-          mkdir -p allure-results
-          if [ -d downloaded ]; then
-            find downloaded -type f -exec cp -f {} allure-results/ \;
-          fi
-          count="$(find allure-results -type f 2>/dev/null | wc -l | tr -d ' ')"
-          if [ "${count:-0}" -eq 0 ]; then
-            echo "has_report=false" >> "$GITHUB_OUTPUT"
-            echo "No Allure result files; skipping report generation."
-            exit 0
-          fi
-          npx allure generate ./allure-results --output ./allure-report
-          echo "has_report=true" >> "$GITHUB_OUTPUT"
+          mkdir -p site allure-results/history
 
-      - name: Upload Allure HTML report bundle
-        if: steps.merge.outputs.has_report == 'true'
+          # Living dashboard at the site root; seed its trend from the last deploy
+          # so the sparkline and recent-runs table carry forward (fail-open on 404).
+          curl -fsSL "$PAGES_BASE/trend.json" -o prev-trend.json || echo "[]" > prev-trend.json
+          DASHBOARD_INPUT_DIR=downloaded-json DASHBOARD_OUT_DIR=site \
+            DASHBOARD_PREV_TREND=prev-trend.json ALLURE_HREF=./allure/ \
+            node scripts/build-dashboard.mjs
+
+          # Allure report under /allure, with history carried over for trend graphs.
+          allure_count=0
+          if [ -d downloaded-allure ]; then
+            find downloaded-allure -type f -exec cp -f {} allure-results/ \;
+            allure_count="$(find allure-results -maxdepth 1 -type f | wc -l | tr -d ' ')"
+          fi
+          for f in history.json history-trend.json duration-trend.json categories-trend.json retry-trend.json; do
+            curl -fsSL "$PAGES_BASE/allure/history/$f" -o "allure-results/history/$f" \
+              || curl -fsSL "$PAGES_BASE/history/$f" -o "allure-results/history/$f" || true
+          done
+          if [ "${allure_count:-0}" -gt 0 ]; then
+            npx allure generate ./allure-results --output ./site/allure
+          else
+            echo "No Allure result files; publishing the dashboard without the Allure report."
+          fi
+          echo "has_site=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload site bundle
+        if: steps.build.outputs.has_site == 'true'
         uses: actions/upload-artifact@v7
         with:
-          name: allure-report-bundle
-          path: allure-report/
+          name: site-bundle
+          path: site/
           retention-days: 14
 
-  deploy-allure-pages:
-    name: Deploy Allure to GitHub Pages
-    needs: [allure-report]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.allure-report.outputs.has_report == 'true'
+  deploy-pages:
+    name: Deploy to GitHub Pages
+    needs: [report]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.report.outputs.has_site == 'true'
     runs-on: ubuntu-latest
     concurrency:
-      group: allure-github-pages
+      group: github-pages
       cancel-in-progress: false
     permissions:
       actions: write
@@ -348,10 +462,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Download Allure HTML report bundle
+      - name: Download site bundle
         uses: actions/download-artifact@v8
         with:
-          name: allure-report-bundle
+          name: site-bundle
           path: _site
 
       - uses: actions/configure-pages@v5

@@ -39,6 +39,12 @@ jobs:
       HOME: /root
       # Image installs browsers here; pin it so resolution is HOME-independent.
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      # Flakemetry upload — fail-open: the reporter uploads OTel spans only when both
+      # the endpoint and token are present, and never fails the run when they are not.
+      # Set FLAKEMETRY_ENDPOINT / FLAKEMETRY_TOKEN as repo secrets to activate.
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+      FLAKEMETRY_PROJECT: akogut/playwright-ecommerce-framework
       BASE_URL: https://www.saucedemo.com/
       STANDARD_USER_USERNAME: standard_user
       STANDARD_USER_PASSWORD: secret_sauce
@@ -80,6 +86,15 @@ jobs:
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Flakemetry batch
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flakemetry-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/flakemetry/
           retention-days: 14
           if-no-files-found: warn
 
@@ -142,6 +157,12 @@ jobs:
       HOME: /root
       # Image installs browsers here; pin it so resolution is HOME-independent.
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      # Flakemetry upload — fail-open: the reporter uploads OTel spans only when both
+      # the endpoint and token are present, and never fails the run when they are not.
+      # Set FLAKEMETRY_ENDPOINT / FLAKEMETRY_TOKEN as repo secrets to activate.
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+      FLAKEMETRY_PROJECT: akogut/playwright-ecommerce-framework
       BASE_URL: https://www.saucedemo.com/
       STANDARD_USER_USERNAME: standard_user
       STANDARD_USER_PASSWORD: secret_sauce
@@ -183,6 +204,15 @@ jobs:
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Flakemetry batch
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flakemetry-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/flakemetry/
           retention-days: 14
           if-no-files-found: warn
 
@@ -245,6 +275,12 @@ jobs:
       HOME: /root
       # Image installs browsers here; pin it so resolution is HOME-independent.
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      # Flakemetry upload — fail-open: the reporter uploads OTel spans only when both
+      # the endpoint and token are present, and never fails the run when they are not.
+      # Set FLAKEMETRY_ENDPOINT / FLAKEMETRY_TOKEN as repo secrets to activate.
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+      FLAKEMETRY_PROJECT: akogut/playwright-ecommerce-framework
       BASE_URL: https://www.saucedemo.com/
       STANDARD_USER_USERNAME: standard_user
       STANDARD_USER_PASSWORD: secret_sauce
@@ -286,6 +322,15 @@ jobs:
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Flakemetry batch
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flakemetry-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/flakemetry/
           retention-days: 14
           if-no-files-found: warn
 

@@ -68,7 +68,7 @@ flowchart TB
 - Built-in HTML, JUnit, JSON, and Allure reporting
 - CI pipelines for PR critical/smoke checks, quality gates, and nightly regression
 - Living [test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) rebuilt on every merge — suite × browser status, pass-rate trend, slowest tests — plus a rich per-run job summary
-- OpenTelemetry test-intelligence via the [Flakemetry](https://github.com/AKogut/flakemetry) reporter (fail-open: local batch always, upload when configured)
+- OpenTelemetry test-intelligence via the [Flakemetry](https://github.com/AKogut/flakemetry) reporter (fail-open: local batch always, upload when configured) — see the [integration guide](docs/flakemetry-guide.md)
 
 ## Documentation
 
@@ -79,6 +79,7 @@ Full index and reading paths: **[Documentation hub](docs/README.md)**
 | Executive summary  | [**Quality overview**](docs/quality-overview.md) (one-pager)                                                             |
 | Strategy & quality | [Test strategy](docs/test-strategy.md) · [Tag strategy](docs/tag-strategy.md) · [UI audit](docs/ui-audit-saucedemo.md)   |
 | Engineering        | [Architecture](docs/architecture.md) · [Folder structure](docs/folder-structure.md) · [CI pipeline](docs/ci-pipeline.md) |
+| Test intelligence  | [Flakemetry integration guide](docs/flakemetry-guide.md)                                                                 |
 | Operations         | [Setup guide](docs/setup-guide.md) · [Troubleshooting](docs/troubleshooting.md)                                          |
 | Visual proof       | [Demo screenshots](docs/demo-screenshots.md)                                                                             |
 | Contributing       | [CONTRIBUTING.md](CONTRIBUTING.md)                                                                                       |

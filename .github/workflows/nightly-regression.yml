@@ -34,6 +34,10 @@ jobs:
       HOME: /root
       # Image installs browsers here; pin it so resolution is HOME-independent.
       PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      # Flakemetry upload — fail-open: uploads only when both are set, never fails the run.
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+      FLAKEMETRY_PROJECT: akogut/playwright-ecommerce-framework
       BASE_URL: https://www.saucedemo.com/
       STANDARD_USER_USERNAME: standard_user
       STANDARD_USER_PASSWORD: secret_sauce
@@ -68,6 +72,15 @@ jobs:
         env:
           RUN_SUMMARY_LABEL: regression · ${{ matrix.browser }}
         run: node scripts/run-summary.mjs
+
+      - name: Upload Flakemetry batch
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flakemetry-${{ github.job }}-${{ matrix.browser }}
+          path: test-results/flakemetry/
+          retention-days: 30
+          if-no-files-found: warn
 
       - name: Upload Allure results
         if: always()

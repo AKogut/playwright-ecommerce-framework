@@ -1,0 +1,29 @@
+# Flakemetry config-as-code — reviewed in PRs, synced to the project on each run.
+#
+# Consumed by the Flakemetry platform/CLI. The Playwright reporter itself reads
+# endpoint/token/project from the environment (FLAKEMETRY_ENDPOINT / FLAKEMETRY_TOKEN /
+# FLAKEMETRY_PROJECT), so:
+#   - The ingest token is NEVER stored here — set FLAKEMETRY_TOKEN as a secret.
+#   - The endpoint comes from FLAKEMETRY_ENDPOINT so it can differ per environment.
+#
+# See docs/flakemetry-guide.md for the full setup. Validate with: npx flakemetry config
+project: akogut/playwright-ecommerce-framework
+
+flaky:
+  threshold: 0.8 # score above which a test becomes a quarantine candidate
+  minSamples: 5 # executions required before a score is trusted
+
+quarantine:
+  enabled: false # opt-in — keep quarantine manual until the board is trusted
+  cooldownRuns: 20
+
+ai:
+  rca: true # AI root-cause analysis (Claude or local Ollama)
+  dailyTokenBudget: 200000 # per-project daily LLM token cap; RCA pauses when exceeded
+
+# Snapshot/visual specs are excluded from flaky scoring (baseline diffs are not flakes).
+ignore:
+  - 'tests/visual/**'
+
+retention:
+  rawDays: 90 # raw executions kept 90 days; daily/suite rollups persist longer

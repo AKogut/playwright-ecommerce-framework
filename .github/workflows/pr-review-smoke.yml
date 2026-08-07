@@ -367,6 +367,45 @@ jobs:
           FAIL_ON_FLAKY: true
         run: npm run report:flaky
 
+  flakemetry:
+    name: Flakemetry insight
+    # After every test job rather than inside the matrix. The summary is per commit, so a
+    # comment posted from three parallel browser jobs would have them racing for the same
+    # sticky marker and the last writer would win with whatever it happened to see.
+    needs: [critical, smoke, api]
+    if: always() && !cancelled() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      statuses: write
+    env:
+      FLAKEMETRY_ENDPOINT: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+      FLAKEMETRY_TOKEN: ${{ secrets.FLAKEMETRY_TOKEN }}
+    steps:
+      # Both steps are skipped until the secrets exist, so this job is inert on a fork and
+      # on any checkout that has not been pointed at an instance yet.
+      - name: Flaky summary on the pull request
+        if: ${{ env.FLAKEMETRY_ENDPOINT != '' }}
+        uses: AKogut/flakemetry/.github/actions/flakemetry-pr-comment@main
+        with:
+          token: ${{ secrets.FLAKEMETRY_TOKEN }}
+          endpoint: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+
+      # Report-only on purpose. `report:flaky` above already fails a job when a test flakes
+      # within its own run; this gate answers a different question — which failures are new
+      # versus already flaky on main — and letting both decide the build at once would mean
+      # the local check fires first and the gate's verdict never gets to matter. Drop
+      # `fail-on-gate` once you decide which of the two should own the outcome.
+      - name: Quality gate verdict
+        if: ${{ env.FLAKEMETRY_ENDPOINT != '' }}
+        uses: AKogut/flakemetry/.github/actions/flakemetry-gate@main
+        with:
+          token: ${{ secrets.FLAKEMETRY_TOKEN }}
+          endpoint: ${{ secrets.FLAKEMETRY_ENDPOINT }}
+          strictness: new
+          fail-on-gate: false
+
   report:
     name: Build report site
     needs: [critical, smoke, api]

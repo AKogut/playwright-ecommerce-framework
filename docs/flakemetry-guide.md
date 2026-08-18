@@ -93,8 +93,12 @@ FLAKEMETRY_TOKEN=fmk_...
 
 **In CI** — add two repo secrets (**Settings → Secrets and variables → Actions**):
 `FLAKEMETRY_ENDPOINT` and `FLAKEMETRY_TOKEN`. That's the whole change — the workflows already
-consume them. The reporter derives commit, branch, PR number, and CI run id from the GitHub
+consume them, and the `flakemetry` job described in step 5 starts commenting on pull requests
+the same day. The reporter derives commit, branch, PR number, and CI run id from the GitHub
 Actions environment automatically.
+
+Give CI a token with the **`ingest` scope only**. A credential that can also read the API is
+one that discloses more when it leaks, and the reporter never reads.
 
 ### 4. Run tests — data flows
 
@@ -106,13 +110,38 @@ The API responds `202`; workers process the run. Verified request shape:
 `POST /v1/traces` (OTLP) or `POST /v1/ingest` (JSON transport), with
 `Authorization: Bearer fmk_…` and an `idempotency-key` that makes re-delivery safe.
 
-### 5. Read the board
+### 5. Insight on the pull request itself
+
+The `flakemetry` job in [pr-review-smoke.yml](../.github/workflows/pr-review-smoke.yml) runs
+after every test job and does two things once the secrets exist:
+
+**A sticky comment** listing this commit's failing and flaky tests with their scores, reason
+codes, and a quarantine marker where one applies. It updates in place on each push rather
+than adding a new comment.
+
+**A quality-gate verdict**, posted as a `flakemetry/gate` commit status: which failures are
+genuinely new against `main`, and which are tests that already flake there.
+
+The gate runs **report-only** (`fail-on-gate: false`). That is deliberate, not an oversight:
+the `critical` job already runs `report:flaky` with `FAIL_ON_FLAKY: true`, which fails on a
+test that flaked _within its own run_. The gate answers a different question — new versus
+already-known-flaky on the base branch — and if both decided the build, the local check would
+fire first and the gate's verdict would never matter. Decide which of the two should own the
+outcome, then either drop `fail-on-gate: false` or drop `FAIL_ON_FLAKY`.
+
+The job sits outside the browser matrix on purpose: the summary is per commit, so posting
+from three parallel jobs would have them racing for the same sticky comment.
+
+Until the secrets are set both steps are skipped, so the job is inert — including on forks,
+where secrets are not available.
+
+### 6. Read the board
 
 1. **Flaky board** — every test ranked by a transparent score, worst first.
 2. **Test detail** — the score broken into reason codes (same commit → different result, pass-on-rerun, …).
 3. **RCA panel** — a likely cause and suggested fix for regressions.
 
-### 6. Seed history so the board is useful immediately
+### 7. Seed history so the board is useful immediately
 
 ```bash
 FLAKEMETRY_ENDPOINT=http://localhost:4000 FLAKEMETRY_TOKEN=fmk_... \

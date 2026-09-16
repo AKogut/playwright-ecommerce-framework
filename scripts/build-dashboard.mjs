@@ -246,7 +246,7 @@ const render = (data, trend) => {
 <body>
 <div class="wrap">
   <h1>Test Health <span aria-hidden="true">·</span> ${esc(repo.split('/')[1] ?? repo)}</h1>
-  <div class="sub">Live status of the Playwright suite across Chromium, Firefox & WebKit. Rebuilt on every merge to <code>main</code>.</div>
+  <div class="sub">Live status of the Playwright suite across Chromium, Firefox & WebKit. Rebuilt on every merge to <code>main</code> and once a day.</div>
 
   <section class="hero">
     <div>

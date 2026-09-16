@@ -7,6 +7,8 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches: [main]
+  schedule:
+    - cron: '17 3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -32,7 +34,7 @@ jobs:
           echo "image=mcr.microsoft.com/playwright:v${version}-noble" >> "$GITHUB_OUTPUT"
 
   critical:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
     permissions:
       contents: read
       actions: write
@@ -148,7 +150,7 @@ jobs:
         run: npm run report:flaky
 
   smoke:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
     permissions:
       contents: read
       actions: write
@@ -264,7 +266,7 @@ jobs:
         run: npm run report:flaky
 
   api:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
     permissions:
       contents: read
       actions: write
@@ -503,7 +505,7 @@ jobs:
   deploy-pages:
     name: Deploy to GitHub Pages
     needs: [report]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.report.outputs.has_site == 'true'
+    if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/main' && needs.report.outputs.has_site == 'true'
     runs-on: ubuntu-latest
     concurrency:
       group: github-pages

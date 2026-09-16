@@ -152,3 +152,10 @@ vite.config.ts.timestamp-*
 # Allure
 /allure-results/
 /allure-report/
+
+/site/
+/dashboard/
+/downloaded/
+/downloaded-json/
+/downloaded-allure/
+/allure-history/

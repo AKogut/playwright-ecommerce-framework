@@ -1,7 +1,7 @@
 # Quality Overview
 
 > **One-page summary** for reviewers, hiring managers, and stakeholders.  
-> **Depth:** [Test strategy](test-strategy.md) · **Evidence:** [Live Allure report](https://akogut.github.io/playwright-ecommerce-framework/)
+> **Depth:** [Test strategy](test-strategy.md) · **Evidence:** [Live test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) · [Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)
 
 ---
 
@@ -17,13 +17,13 @@ A **layered Playwright + TypeScript framework** targeting [SauceDemo](https://ww
 
 ## At a glance
 
-| Metric              |                                                                           Value |
-| ------------------- | ------------------------------------------------------------------------------: |
-| Automated scenarios |                                                                          **24** |
-| Browsers (desktop)  |                                                       Chromium, Firefox, WebKit |
-| PR merge gates      |                                            `@critical` · `@smoke` · `tests/api` |
-| Nightly depth       |                                               `@regression` (12 UI + 5 network) |
-| Live report         | [GitHub Pages Allure](https://akogut.github.io/playwright-ecommerce-framework/) |
+| Metric              |                                                                                                                                                         Value |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Automated scenarios |                                                                                                                                                        **24** |
+| Browsers (desktop)  |                                                                                                                                     Chromium, Firefox, WebKit |
+| PR merge gates      |                                                                                                                          `@critical` · `@smoke` · `tests/api` |
+| Nightly depth       |                                                                                                                             `@regression` (12 UI + 5 network) |
+| Live report         | [Test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) · [Allure](https://akogut.github.io/playwright-ecommerce-framework/allure/) |
 
 ---
 
@@ -99,7 +99,7 @@ sequenceDiagram
     PR->>PR: critical + smoke + api + quality
     PR-->>Dev: Pass / fail + artifacts
     Dev->>Main: Merge
-    Main->>Pages: Deploy merged Allure
+    Main->>Pages: Deploy dashboard + merged Allure
     Note over Pages: Live dashboard updated
 ```
 
@@ -114,7 +114,7 @@ sequenceDiagram
 ## 60-second evaluation path
 
 1. Read [Portfolio highlights](../README.md#portfolio-highlights) in the README.
-2. Open the **[live Allure report](https://akogut.github.io/playwright-ecommerce-framework/)** — latest `main` smoke run.
+2. Open the **[live test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/)** — latest `main` smoke run, with the full [Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/) one click away.
 3. Skim the **[coverage matrix](test-strategy.md#coverage-matrix)** — 24 scenarios with file names.
 4. Review **[Architecture](architecture.md)** — layers and fixture model.
 5. Optional: clone, `npm ci`, `npm run test:smoke` ([Setup guide](setup-guide.md)).

@@ -462,7 +462,7 @@ jobs:
         id: build
         run: |
           set -euo pipefail
-          mkdir -p site allure-results/history
+          mkdir -p site allure-results allure-history
 
           # Living dashboard at the site root; seed its trend from the last deploy
           # so the sparkline and recent-runs table carry forward (fail-open on 404).
@@ -477,12 +477,16 @@ jobs:
             find downloaded-allure -type f -exec cp -f {} allure-results/ \;
             allure_count="$(find allure-results -maxdepth 1 -type f | wc -l | tr -d ' ')"
           fi
-          for f in history.json history-trend.json duration-trend.json categories-trend.json retry-trend.json; do
-            curl -fsSL "$PAGES_BASE/allure/history/$f" -o "allure-results/history/$f" \
-              || curl -fsSL "$PAGES_BASE/history/$f" -o "allure-results/history/$f" || true
-          done
           if [ "${allure_count:-0}" -gt 0 ]; then
-            npx allure generate ./allure-results --output ./site/allure
+            curl -fsSL "$PAGES_BASE/allure/history.jsonl" -o allure-history/history.jsonl \
+              || rm -f allure-history/history.jsonl
+            ALLURE_HISTORY_PATH=allure-history/history.jsonl \
+              npx allure generate ./allure-results --output ./site/allure
+            if [ -f allure-history/history.jsonl ]; then
+              cp allure-history/history.jsonl site/allure/history.jsonl
+            else
+              echo "::warning::Allure wrote no run history; report trend charts will not advance."
+            fi
           else
             echo "No Allure result files; publishing the dashboard without the Allure report."
           fi

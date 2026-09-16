@@ -103,11 +103,11 @@ sequenceDiagram
     Note over Pages: Live dashboard updated
 ```
 
-| Workflow                                                                                                                | When      | Outcome                |
-| ----------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------- |
-| [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml)             | Every PR  | Merge gate + artifacts |
-| [Code Quality](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml)             | Every PR  | Static analysis gate   |
-| [Nightly Regression](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml) | 01:00 UTC | Depth signal           |
+| Workflow                                                                                                                | When            | Outcome                                |
+| ----------------------------------------------------------------------------------------------------------------------- | --------------- | -------------------------------------- |
+| [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml)             | Every PR, daily | Merge gate + artifacts, live dashboard |
+| [Code Quality](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml)             | Every PR        | Static analysis gate                   |
+| [Nightly Regression](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml) | 01:00 UTC       | Depth signal                           |
 
 ---
 

@@ -69,7 +69,8 @@ flowchart TB
 - Health-checked global setup and metadata-driven global teardown
 - Built-in HTML, JUnit, JSON, and Allure reporting
 - CI pipelines for PR critical/smoke checks, quality gates, and nightly regression
-- Living [test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) rebuilt on every merge — suite × browser status, pass-rate trend, slowest tests — plus a rich per-run job summary
+- Living [test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) rebuilt on every merge and once a day — suite × browser status, pass-rate trend, slowest tests — plus a rich per-run job summary
+- Weekly grouped Dependabot updates for npm and GitHub Actions; the CI container image follows the Playwright version in the lockfile, so upgrades need no workflow edits
 - OpenTelemetry test-intelligence via the [Flakemetry](https://github.com/AKogut/flakemetry) reporter (fail-open: local batch always, upload when configured) — see the [integration guide](docs/flakemetry-guide.md)
 
 ## Documentation
@@ -156,7 +157,7 @@ npm run format
 
 ## Reports
 
-**Live test-health dashboard (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/) — a self-contained page rebuilt on every merge, showing suite × browser status, pass-rate trend, and the slowest tests. The full **[Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)** (with history/trends) lives under `/allure/`.
+**Live test-health dashboard (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/) — a self-contained page rebuilt on every merge and once a day, showing suite × browser status, pass-rate trend, and the slowest tests. The full **[Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)** (with history/trends) lives under `/allure/`.
 
 If Pages is unavailable or you need a specific workflow run, open the [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml) workflow, select the run, and download the **`site-bundle`** artifact (dashboard + merged Allure HTML). Extract and open `index.html` locally.
 

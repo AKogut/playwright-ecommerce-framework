@@ -16,7 +16,7 @@ jobs:
     outputs:
       image: ${{ steps.resolve.outputs.image }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: package-lock.json
           sparse-checkout-cone-mode: false
@@ -70,9 +70,9 @@ jobs:
       TEST_TIMEOUT_MS: 30000
       EXPECT_TIMEOUT_MS: 5000
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -136,9 +136,9 @@ jobs:
     outputs:
       has_report: ${{ steps.merge.outputs.has_report }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm

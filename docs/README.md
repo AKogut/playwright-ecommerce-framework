@@ -4,12 +4,12 @@ Central index for the Playwright Ecommerce Framework. Each guide has a single re
 
 ## Reading paths
 
-| Persona                       | Start here                                     | Then                                                                                                               |
-| ----------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **New contributor**           | [Setup guide](setup-guide.md)                  | [Folder structure](folder-structure.md) → [Contributing guide](../CONTRIBUTING.md)                                 |
-| **Reviewer / hiring manager** | [**Quality overview**](quality-overview.md)    | [Test strategy](test-strategy.md) → [Live Allure report](https://akogut.github.io/playwright-ecommerce-framework/) |
-| **Test author**               | [Tag strategy](tag-strategy.md)                | [UI audit](ui-audit-saucedemo.md) → [Architecture](architecture.md)                                                |
-| **On-call / triage**          | [Troubleshooting appendix](troubleshooting.md) | [CI pipeline](ci-pipeline.md) → workflow artifacts                                                                 |
+| Persona                       | Start here                                     | Then                                                                                                                       |
+| ----------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **New contributor**           | [Setup guide](setup-guide.md)                  | [Folder structure](folder-structure.md) → [Contributing guide](../CONTRIBUTING.md)                                         |
+| **Reviewer / hiring manager** | [**Quality overview**](quality-overview.md)    | [Test strategy](test-strategy.md) → [Live test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) |
+| **Test author**               | [Tag strategy](tag-strategy.md)                | [UI audit](ui-audit-saucedemo.md) → [Architecture](architecture.md)                                                        |
+| **On-call / triage**          | [Troubleshooting appendix](troubleshooting.md) | [CI pipeline](ci-pipeline.md) → workflow artifacts                                                                         |
 
 ## Guides by topic
 

@@ -7,6 +7,8 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches: [main]
+  schedule:
+    - cron: '17 3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -32,7 +34,7 @@ jobs:
           echo "image=mcr.microsoft.com/playwright:v${version}-noble" >> "$GITHUB_OUTPUT"
 
   critical:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
     permissions:
       contents: read
       actions: write
@@ -148,7 +150,7 @@ jobs:
         run: npm run report:flaky
 
   smoke:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
     permissions:
       contents: read
       actions: write
@@ -264,7 +266,7 @@ jobs:
         run: npm run report:flaky
 
   api:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || (github.event_name == 'pull_request_review' && (github.event.review.state == 'approved' || github.event.review.state == 'changes_requested' || github.event.review.state == 'commented')) }}
     permissions:
       contents: read
       actions: write
@@ -462,7 +464,7 @@ jobs:
         id: build
         run: |
           set -euo pipefail
-          mkdir -p site allure-results/history
+          mkdir -p site allure-results allure-history
 
           # Living dashboard at the site root; seed its trend from the last deploy
           # so the sparkline and recent-runs table carry forward (fail-open on 404).
@@ -477,12 +479,16 @@ jobs:
             find downloaded-allure -type f -exec cp -f {} allure-results/ \;
             allure_count="$(find allure-results -maxdepth 1 -type f | wc -l | tr -d ' ')"
           fi
-          for f in history.json history-trend.json duration-trend.json categories-trend.json retry-trend.json; do
-            curl -fsSL "$PAGES_BASE/allure/history/$f" -o "allure-results/history/$f" \
-              || curl -fsSL "$PAGES_BASE/history/$f" -o "allure-results/history/$f" || true
-          done
           if [ "${allure_count:-0}" -gt 0 ]; then
-            npx allure generate ./allure-results --output ./site/allure
+            curl -fsSL "$PAGES_BASE/allure/history.jsonl" -o allure-history/history.jsonl \
+              || rm -f allure-history/history.jsonl
+            ALLURE_HISTORY_PATH=allure-history/history.jsonl \
+              npx allure generate ./allure-results --output ./site/allure
+            if [ -f allure-history/history.jsonl ]; then
+              cp allure-history/history.jsonl site/allure/history.jsonl
+            else
+              echo "::warning::Allure wrote no run history; report trend charts will not advance."
+            fi
           else
             echo "No Allure result files; publishing the dashboard without the Allure report."
           fi
@@ -499,7 +505,7 @@ jobs:
   deploy-pages:
     name: Deploy to GitHub Pages
     needs: [report]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.report.outputs.has_site == 'true'
+    if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/main' && needs.report.outputs.has_site == 'true'
     runs-on: ubuntu-latest
     concurrency:
       group: github-pages

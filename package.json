@@ -16,7 +16,7 @@
     "test:critical:chromium": "playwright test --project=critical-chromium",
     "test:critical:firefox": "playwright test --project=critical-firefox",
     "test:critical:webkit": "playwright test --project=critical-webkit",
-    "test:untagged": "playwright test --project=untagged-chromium",
+    "test:untagged": "playwright test --project=untagged-chromium --pass-with-no-tests",
     "test:api": "playwright test tests/api --workers=1",
     "test:api:chromium": "playwright test tests/api --project=regression-chromium --workers=1",
     "test:api:firefox": "playwright test tests/api --project=regression-firefox --workers=1",

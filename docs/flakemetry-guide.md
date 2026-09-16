@@ -132,6 +132,12 @@ outcome, then either drop `fail-on-gate: false` or drop `FAIL_ON_FLAKY`.
 The job sits outside the browser matrix on purpose: the summary is per commit, so posting
 from three parallel jobs would have them racing for the same sticky comment.
 
+Both actions are pinned to a full commit SHA of the Flakemetry repository rather than to
+`main`. They run with the Flakemetry token and write access to pull requests and statuses,
+and actions are downloaded when the job starts even if their steps are later skipped, so a
+branch reference would let any change on Flakemetry's `main` affect this repository's pull
+requests. To adopt a newer version, change the SHA in both `uses:` lines.
+
 Until the secrets are set both steps are skipped, so the job is inert — including on forks,
 where secrets are not available.
 

@@ -4,3 +4,9 @@ test-results
 blob-report
 allure-report
 allure-results
+site
+dashboard
+downloaded
+downloaded-json
+downloaded-allure
+allure-history

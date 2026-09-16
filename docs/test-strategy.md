@@ -232,7 +232,7 @@ Implementation reference: [Architecture](architecture.md).
 | Smoke matrix    | same → `smoke` × 3 browsers        | PR blocked                             |
 | API matrix      | same → `api` × 3 browsers          | PR blocked                             |
 | Regression      | `nightly-regression.yml`           | Signal for drift; investigate next day |
-| Live report     | `deploy-allure-pages` on `main`    | Portfolio / stakeholder visibility     |
+| Live report     | `deploy-pages` on `main`           | Portfolio / stakeholder visibility     |
 
 **Retries:** CI runs with `retries: 2` to absorb transient AUT/network noise; chronic flakes require a tracked issue and fix—not silent retry acceptance.
 
@@ -259,7 +259,7 @@ Implementation reference: [Architecture](architecture.md).
 
 - [ ] All PR gates green on merge commit
 - [ ] Nightly regression green within last 24h
-- [ ] [Live Allure](https://akogut.github.io/playwright-ecommerce-framework/) reflects latest smoke run
+- [ ] [Live dashboard](https://akogut.github.io/playwright-ecommerce-framework/) and [Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/) reflect the latest smoke run
 
 ---
 

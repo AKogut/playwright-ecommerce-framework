@@ -236,14 +236,17 @@ npm run report:allure:open
 
 **Path:** GitHub → Actions → select workflow run → **Artifacts** at bottom.
 
-| Artifact                            | When to use                                            |
-| ----------------------------------- | ------------------------------------------------------ |
-| `test-results-<job>-<browser>`      | **First choice** — trace, screenshot, video on failure |
-| `playwright-report-<job>-<browser>` | HTML report per shard                                  |
-| `allure-results-<job>-<browser>`    | Raw inputs for local Allure merge                      |
-| `allure-report-bundle`              | Full merged HTML (all jobs)                            |
+| Artifact                            | When to use                                                     |
+| ----------------------------------- | --------------------------------------------------------------- |
+| `test-results-<job>-<browser>`      | **First choice** — trace, screenshot, video on failure          |
+| `playwright-report-<job>-<browser>` | HTML report per shard                                           |
+| `allure-results-<job>-<browser>`    | Raw inputs for local Allure merge                               |
+| `run-json-<job>-<browser>`          | Playwright JSON per job; input for `npm run report:dashboard`   |
+| `flakemetry-<job>-<browser>`        | Flakemetry OTel batch — the exact payload the platform receives |
+| `site-bundle`                       | Smoke Run: dashboard + merged Allure HTML, as deployed to Pages |
+| `allure-report-bundle`              | Regression Run: merged Allure HTML across the three browsers    |
 
-**Live dashboard (main):** [GitHub Pages Allure](https://akogut.github.io/playwright-ecommerce-framework/)
+**Live (main):** [test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) · [Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)
 
 Pipeline reference: [CI pipeline](ci-pipeline.md).
 

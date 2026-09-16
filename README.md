@@ -20,19 +20,21 @@ Production-style Playwright + TypeScript E2E framework for [SauceDemo](https://w
 
 - **Problem:** E-commerce E2E suites become hard to maintain when selectors, test data, and reporting logic live inside individual specs.
 - **Solution:** A layered Playwright + TypeScript framework with Page Objects, merged fixtures, tagged suites, and CI workflows that merge Allure results across browsers.
-- **Result:** Faster PR feedback (parallel critical, smoke, and API jobs), reproducible triage artifacts, and a published Allure dashboard after every merge to `main`.
+- **Result:** Faster PR feedback (parallel critical, smoke, and API jobs), reproducible triage artifacts, and a live test-health dashboard plus Allure report published after every merge to `main`.
 
 [![Playwright](https://img.shields.io/badge/Playwright-45ba4b?logo=playwright&logoColor=white)](https://playwright.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Allure Report](https://img.shields.io/badge/Allure_Report-FF6B35?logo=allure&logoColor=white)](https://allurereport.org/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
-| Suite                      | Scenarios |
-| -------------------------- | --------: |
-| Smoke (`@smoke`)           |         7 |
-| Regression (`@regression`) |        12 |
-| API (`tests/api`)          |         5 |
-| **Total**                  |    **24** |
+| Suite                              | Scenarios |
+| ---------------------------------- | --------: |
+| Smoke (`@smoke`)                   |         7 |
+| Regression UI (`tests/regression`) |        12 |
+| API (`tests/api`)                  |         5 |
+| **Total**                          |    **24** |
+
+The nightly `@regression` run covers the 12 UI scenarios and the 5 API specs (17 tests per browser).
 
 Operational metrics:
 
@@ -53,7 +55,7 @@ flowchart TB
         API["API · 5 · 3 browsers"]
     end
     subgraph night["Nightly"]
-        RG["@regression · 12 · 3 browsers"]
+        RG["@regression · 12 UI + 5 API · 3 browsers"]
     end
     ST --> CR & SM & API
     SM -.-> RG
@@ -67,7 +69,8 @@ flowchart TB
 - Health-checked global setup and metadata-driven global teardown
 - Built-in HTML, JUnit, JSON, and Allure reporting
 - CI pipelines for PR critical/smoke checks, quality gates, and nightly regression
-- Living [test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) rebuilt on every merge — suite × browser status, pass-rate trend, slowest tests — plus a rich per-run job summary
+- Living [test-health dashboard](https://akogut.github.io/playwright-ecommerce-framework/) rebuilt on every merge and once a day — suite × browser status, pass-rate trend, slowest tests — plus a rich per-run job summary
+- Weekly grouped Dependabot updates for npm and GitHub Actions; the CI container image follows the Playwright version in the lockfile, so upgrades need no workflow edits
 - OpenTelemetry test-intelligence via the [Flakemetry](https://github.com/AKogut/flakemetry) reporter (fail-open: local batch always, upload when configured) — see the [integration guide](docs/flakemetry-guide.md)
 
 ## Documentation
@@ -154,7 +157,7 @@ npm run format
 
 ## Reports
 
-**Live test-health dashboard (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/) — a self-contained page rebuilt on every merge, showing suite × browser status, pass-rate trend, and the slowest tests. The full **[Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)** (with history/trends) lives under `/allure/`.
+**Live test-health dashboard (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/) — a self-contained page rebuilt on every merge and once a day, showing suite × browser status, pass-rate trend, and the slowest tests. The full **[Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)** (with history/trends) lives under `/allure/`.
 
 If Pages is unavailable or you need a specific workflow run, open the [Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml) workflow, select the run, and download the **`site-bundle`** artifact (dashboard + merged Allure HTML). Extract and open `index.html` locally.
 
@@ -167,10 +170,11 @@ During GitHub Actions runs:
 
 - Playwright HTML report artifacts are uploaded as `playwright-report-<job>-<browser>`.
 - Raw Allure results are uploaded as `allure-results-<job>-<browser>`.
-- A merged Allure HTML artifact is produced as `allure-report-bundle`.
+- Per-job Playwright JSON (`run-json-<job>-<browser>`) and the Flakemetry batch (`flakemetry-<job>-<browser>`) are uploaded on every run.
+- The Smoke Run publishes the combined dashboard and merged Allure HTML as `site-bundle`; the nightly Regression Run produces a merged `allure-report-bundle`.
 - On failing jobs, `test-results-<job>-<browser>` includes screenshots, videos, traces.
 
-After merge to `main`, the Smoke Run workflow deploys the merged report to GitHub Pages (`deploy-allure-pages`). See [CI pipeline diagram](docs/ci-pipeline.md) for the full flow.
+After merge to `main`, the Smoke Run workflow deploys the dashboard and Allure report to GitHub Pages (`deploy-pages`). See [CI pipeline diagram](docs/ci-pipeline.md) for the full flow.
 
 ## Environment variables
 

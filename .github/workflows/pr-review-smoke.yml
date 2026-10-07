@@ -401,7 +401,7 @@ jobs:
       # on any checkout that has not been pointed at an instance yet.
       - name: Flaky summary on the pull request
         if: ${{ env.FLAKEMETRY_ENDPOINT != '' }}
-        uses: AKogut/flakemetry/.github/actions/flakemetry-pr-comment@6f71e5217e3874a02771b0ac62fc08f461996e72
+        uses: AKogut/flakemetry/.github/actions/flakemetry-pr-comment@0f6d0c25b997b83d5dfe9cf2aa51299a2997539e
         with:
           token: ${{ secrets.FLAKEMETRY_TOKEN }}
           endpoint: ${{ secrets.FLAKEMETRY_ENDPOINT }}
@@ -413,7 +413,7 @@ jobs:
       # `fail-on-gate` once you decide which of the two should own the outcome.
       - name: Quality gate verdict
         if: ${{ env.FLAKEMETRY_ENDPOINT != '' }}
-        uses: AKogut/flakemetry/.github/actions/flakemetry-gate@6f71e5217e3874a02771b0ac62fc08f461996e72
+        uses: AKogut/flakemetry/.github/actions/flakemetry-gate@0f6d0c25b997b83d5dfe9cf2aa51299a2997539e
         with:
           token: ${{ secrets.FLAKEMETRY_TOKEN }}
           endpoint: ${{ secrets.FLAKEMETRY_ENDPOINT }}

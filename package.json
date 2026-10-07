@@ -71,18 +71,18 @@
     "@commitlint/config-conventional": "^20.5.3",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.4.0",
-    "@flakemetry/playwright-reporter": "^0.1.3",
+    "@flakemetry/playwright-reporter": "^0.1.4",
     "@playwright/test": "^1.63.0",
-    "@types/node": "^25.9.6",
-    "allure": "^3.8.2",
-    "allure-playwright": "^3.12.1",
+    "@types/node": "^25.9.9",
+    "allure": "^3.20.0",
+    "allure-playwright": "^3.13.0",
     "dotenv": "^17.4.2",
-    "eslint": "^10.10.0",
-    "eslint-plugin-playwright": "^2.11.0",
-    "globals": "^17.12.0",
+    "eslint": "^10.12.0",
+    "eslint-plugin-playwright": "^2.12.0",
+    "globals": "^17.13.0",
     "husky": "^9.1.7",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.9",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.70.0"
+    "typescript-eslint": "^8.71.0"
   }
 }

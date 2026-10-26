@@ -16,6 +16,9 @@ updates:
       - dependency-name: '*'
         update-types:
           - version-update:semver-major
+      - dependency-name: 'allure'
+        versions:
+          - '>=3.21.0'
 
   - package-ecosystem: github-actions
     directory: /

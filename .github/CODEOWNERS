@@ -1,0 +1,11 @@
+# Every path has an owner, so a review request is never ambiguous.
+# On a single-maintainer repository this is one line — but the file is what makes
+# that explicit rather than assumed, and it is the hook for adding reviewers per
+# area later.
+
+*                       @AKogut
+
+# Areas where a change has consequences beyond the file being edited.
+/src/                   @AKogut
+/playwright.config.ts   @AKogut
+/.github/workflows/     @AKogut

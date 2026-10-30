@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Source of social-preview.png (1280×640). Same template as the other portfolio repositories. -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1280px;
+        height: 640px;
+        overflow: hidden;
+      }
+      body {
+        background: linear-gradient(135deg, #0d1117 0%, #10151c 100%);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        position: relative;
+        color: #e6edf3;
+      }
+      .topbar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #58a6ff 0%, #4cc38a 100%);
+      }
+      .wrap {
+        display: flex;
+        gap: 24px;
+        padding: 84px 80px 0;
+      }
+      .accent {
+        width: 5px;
+        border-radius: 3px;
+        background: linear-gradient(180deg, #58a6ff, #4cc38a);
+        align-self: stretch;
+        margin-bottom: 8px;
+      }
+      .eyebrow {
+        color: #58a6ff;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 4px;
+      }
+      h1 {
+        font-size: 60px;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-top: 14px;
+      }
+      h1 .t1 {
+        color: #f0f6fc;
+        display: block;
+      }
+      h1 .t2 {
+        display: block;
+        background: linear-gradient(90deg, #58a6ff, #4cc38a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        color: #c9d1d9;
+        font-size: 25px;
+        line-height: 1.36;
+        margin-top: 26px;
+      }
+      .chips {
+        display: flex;
+        gap: 16px;
+        margin-top: 40px;
+      }
+      .chip {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 24px;
+        padding: 11px 22px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #e6edf3;
+        white-space: nowrap;
+      }
+      .tech {
+        color: #8b949e;
+        font-size: 23px;
+        font-weight: 500;
+        margin-top: 40px;
+      }
+      .url {
+        color: #6e7681;
+        font-size: 21px;
+        font-weight: 500;
+        margin-top: 22px;
+      }
+      .motif {
+        position: absolute;
+        top: 70px;
+        right: 56px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar"></div>
+    <svg class="motif" width="210" height="210" viewBox="0 0 240 240">
+      <rect
+        x="16"
+        y="30"
+        width="208"
+        height="170"
+        rx="12"
+        fill="#0d1117"
+        stroke="#58a6ff"
+        stroke-width="2"
+      />
+      <line x1="16" y1="60" x2="224" y2="60" stroke="#30363d" stroke-width="1.5" />
+      <circle cx="36" cy="45" r="5" fill="#f85149" />
+      <circle cx="52" cy="45" r="5" fill="#e3b341" />
+      <circle cx="68" cy="45" r="5" fill="#4cc38a" />
+      <rect x="92" y="38" width="40" height="14" rx="4" fill="#58a6ff" opacity="0.8" />
+      <rect x="138" y="38" width="36" height="14" rx="4" fill="#30363d" />
+      <rect x="180" y="38" width="32" height="14" rx="4" fill="#30363d" />
+
+      <path
+        d="M36 86 l6 6 l12 -12"
+        fill="none"
+        stroke="#4cc38a"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="66" y="81" width="120" height="10" rx="5" fill="#30363d" />
+      <path
+        d="M36 118 l6 6 l12 -12"
+        fill="none"
+        stroke="#4cc38a"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="66" y="113" width="96" height="10" rx="5" fill="#30363d" />
+      <path
+        d="M36 150 l6 6 l12 -12"
+        fill="none"
+        stroke="#4cc38a"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="66" y="145" width="136" height="10" rx="5" fill="#30363d" />
+      <rect x="36" y="178" width="168" height="6" rx="3" fill="#4cc38a" opacity="0.35" />
+    </svg>
+    <div class="wrap">
+      <div class="accent"></div>
+      <div class="col">
+        <div class="eyebrow">SDET · E2E TEST AUTOMATION</div>
+        <h1>
+          <span class="t1">Playwright E-commerce</span><span class="t2">E2E Test Framework</span>
+        </h1>
+        <div class="sub">
+          Page objects, fixtures and tagged suites as separate layers —<br />built for a team to
+          extend, not just to run.
+        </div>
+        <div class="chips">
+          <div class="chip">3 browsers</div>
+          <div class="chip">24 scenarios</div>
+          <div class="chip">live test-health dashboard</div>
+          <div class="chip">Allure reports</div>
+        </div>
+        <div class="tech">TypeScript · Playwright · Allure · Docker · GitHub Actions</div>
+        <div class="url">github.com/AKogut/playwright-ecommerce-framework</div>
+      </div>
+    </div>
+  </body>
+</html>

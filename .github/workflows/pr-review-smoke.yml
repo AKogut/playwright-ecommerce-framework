@@ -104,7 +104,7 @@ jobs:
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
-          retention-days: 14
+          retention-days: 90
           if-no-files-found: warn
 
       - name: Upload Flakemetry batch
@@ -113,7 +113,7 @@ jobs:
         with:
           name: flakemetry-${{ github.job }}-${{ matrix.browser }}
           path: test-results/flakemetry/
-          retention-days: 14
+          retention-days: 90
           if-no-files-found: warn
 
       - name: Upload Allure results
@@ -220,7 +220,7 @@ jobs:
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
-          retention-days: 14
+          retention-days: 90
           if-no-files-found: warn
 
       - name: Upload Flakemetry batch
@@ -229,7 +229,7 @@ jobs:
         with:
           name: flakemetry-${{ github.job }}-${{ matrix.browser }}
           path: test-results/flakemetry/
-          retention-days: 14
+          retention-days: 90
           if-no-files-found: warn
 
       - name: Upload Allure results
@@ -336,7 +336,7 @@ jobs:
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
-          retention-days: 14
+          retention-days: 90
           if-no-files-found: warn
 
       - name: Upload Flakemetry batch
@@ -345,7 +345,7 @@ jobs:
         with:
           name: flakemetry-${{ github.job }}-${{ matrix.browser }}
           path: test-results/flakemetry/
-          retention-days: 14
+          retention-days: 90
           if-no-files-found: warn
 
       - name: Upload Allure results

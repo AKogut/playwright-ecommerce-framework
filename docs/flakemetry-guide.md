@@ -33,6 +33,12 @@ So the moment you add the two secrets, uploads start — no workflow change need
 | **Local batch (default, on now)** | nothing                                      | `test-results/flakemetry/run.json` per run — the exact OTel payload, for inspection/debugging |
 | **Full platform**                 | a running Flakemetry instance + ingest token | Flaky board, per-test history, explainable scoring, AI RCA, cost, quarantine, badges          |
 
+## Public history
+
+Without any secret, this suite's history is already [public on Flakemetry](https://akogut.github.io/flakemetry/demo/playwright/flaky.html). A nightly job in the Flakemetry repository reads the `flakemetry-*` artifacts of this repository, replays them through a real instance and publishes a static snapshot, with each browser scored on its own. It covers `main` only, and those artifacts are kept for 90 days so that nothing is lost between runs.
+
+A pull request comment and the quality gate still need a running instance, described below.
+
 ## The data path
 
 ```

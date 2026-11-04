@@ -1,6 +1,7 @@
 # Playwright Ecommerce Framework
 
 [![Test health](https://img.shields.io/endpoint?url=https%3A%2F%2Fakogut.github.io%2Fplaywright-ecommerce-framework%2Fbadge.json)](https://akogut.github.io/playwright-ecommerce-framework/)
+[![Flakemetry](https://img.shields.io/endpoint?url=https%3A%2F%2Fakogut.github.io%2Fflakemetry%2Fdemo%2Fplaywright%2Fhealth.json)](https://akogut.github.io/flakemetry/demo/playwright/flaky.html)
 [![Smoke Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/pr-review-smoke.yml)
 [![Code Quality Checks](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/code-quality.yml)
 [![Regression Run](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml/badge.svg?branch=main)](https://github.com/AKogut/playwright-ecommerce-framework/actions/workflows/nightly-regression.yml)
@@ -156,6 +157,8 @@ npm run format
 ```
 
 ## Reports
+
+Every run's history is public on [Flakemetry](https://akogut.github.io/flakemetry/demo/playwright/flaky.html), scored per browser and rebuilt nightly from the artifacts below.
 
 **Live test-health dashboard (latest `main` run):** [https://akogut.github.io/playwright-ecommerce-framework/](https://akogut.github.io/playwright-ecommerce-framework/) — a self-contained page rebuilt on every merge and once a day, showing suite × browser status, pass-rate trend, and the slowest tests. The full **[Allure report](https://akogut.github.io/playwright-ecommerce-framework/allure/)** (with history/trends) lives under `/allure/`.
 

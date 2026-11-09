@@ -6,7 +6,7 @@ This guide is the source of truth for preparing a local environment and validati
 
 ## 1) Prerequisites
 
-- Node.js 24+ (`.nvmrc` is pinned to `24`)
+- Node.js 24+ (`.nvmrc` is pinned to `26`)
 - npm 11+ (bundled with Node 24)
 - Git
 

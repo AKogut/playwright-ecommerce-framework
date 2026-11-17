@@ -63,7 +63,11 @@
   },
   "homepage": "https://github.com/AKogut/playwright-ecommerce-framework#readme",
   "engines": {
-    "node": ">=24"
+    "node": ">=26"
+  },
+  "overrides": {
+    "minimatch": "^11.0.9",
+    "glob": "^14.0.6"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
@@ -74,7 +78,7 @@
     "@flakemetry/playwright-reporter": "^0.2.0",
     "@playwright/test": "^1.65.0",
     "@types/node": "^26.6.6",
-    "allure": "^3.20.1",
+    "allure": "^3.33.0",
     "allure-playwright": "^3.14.0",
     "dotenv": "^18.0.9",
     "eslint": "^10.14.0",

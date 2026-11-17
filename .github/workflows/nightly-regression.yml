@@ -16,7 +16,7 @@ jobs:
     outputs:
       image: ${{ steps.resolve.outputs.image }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           sparse-checkout: package-lock.json
           sparse-checkout-cone-mode: false
@@ -70,9 +70,9 @@ jobs:
       TEST_TIMEOUT_MS: 30000
       EXPECT_TIMEOUT_MS: 5000
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 26
           cache: npm
@@ -91,7 +91,7 @@ jobs:
 
       - name: Upload Flakemetry batch
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: flakemetry-${{ github.job }}-${{ matrix.browser }}
           path: test-results/flakemetry/
@@ -100,7 +100,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: allure-results-${{ github.job }}-${{ matrix.browser }}
           path: allure-results/
@@ -109,7 +109,7 @@ jobs:
 
       - name: Upload Playwright HTML report
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-report-${{ github.job }}-${{ matrix.browser }}
           path: playwright-report/
@@ -118,7 +118,7 @@ jobs:
 
       - name: Upload test-results (failure media only)
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: test-results-${{ github.job }}-${{ matrix.browser }}
           path: test-results/
@@ -136,9 +136,9 @@ jobs:
     outputs:
       has_report: ${{ steps.merge.outputs.has_report }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 26
           cache: npm
@@ -147,7 +147,7 @@ jobs:
         run: npm ci
 
       - name: Download Allure raw results
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         continue-on-error: true
         with:
           pattern: allure-results-regression-*
@@ -173,7 +173,7 @@ jobs:
 
       - name: Upload Allure HTML report bundle
         if: steps.merge.outputs.has_report == 'true'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: allure-report-bundle
           path: allure-report/

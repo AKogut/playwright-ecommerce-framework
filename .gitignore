@@ -159,3 +159,6 @@ vite.config.ts.timestamp-*
 /downloaded-json/
 /downloaded-allure/
 /allure-history/
+
+# macOS
+.DS_Store

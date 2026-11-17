@@ -87,6 +87,7 @@ Full index and reading paths: **[Documentation hub](docs/README.md)**
 | Operations         | [Setup guide](docs/setup-guide.md) · [Troubleshooting](docs/troubleshooting.md)                                          |
 | Visual proof       | [Demo screenshots](docs/demo-screenshots.md)                                                                             |
 | Contributing       | [CONTRIBUTING.md](CONTRIBUTING.md)                                                                                       |
+| Release history    | [CHANGELOG.md](CHANGELOG.md)                                                                                             |
 
 ## Quick start
 

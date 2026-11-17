@@ -178,3 +178,57 @@ jobs:
           name: allure-report-bundle
           path: allure-report/
           retention-days: 30
+
+  triage:
+    name: Triage a failed run
+    needs: [regression]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    env:
+      BASE_URL: https://www.saucedemo.com/
+    steps:
+      - name: Probe the application under test
+        id: probe
+        run: |
+          set -uo pipefail
+          code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 "$BASE_URL" || echo 000)"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" = "200" ]; then
+            echo "verdict=suite" >> "$GITHUB_OUTPUT"
+            echo "detail=The site answered 200, so the failure is in the suite rather than the environment." >> "$GITHUB_OUTPUT"
+          else
+            echo "verdict=outage" >> "$GITHUB_OUTPUT"
+            echo "detail=The site answered $code. The failure most likely reflects the demo site being unavailable, not a regression in the suite." >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update the triage issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          VERDICT: ${{ steps.probe.outputs.verdict }}
+          DETAIL: ${{ steps.probe.outputs.detail }}
+          HTTP_CODE: ${{ steps.probe.outputs.code }}
+        run: |
+          set -euo pipefail
+          title="Nightly regression failed"
+          body=$(printf '%s\n' \
+            "The scheduled regression run did not pass." \
+            "" \
+            "- Run: $RUN_URL" \
+            "- Application under test: \`$BASE_URL\` returned HTTP \`$HTTP_CODE\`" \
+            "- Likely cause: **$VERDICT**" \
+            "" \
+            "$DETAIL" \
+            "" \
+            "This issue is reopened and commented on by each failing nightly run, and is closed by hand once the cause is resolved.")
+          existing="$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body" --label "ci" 2>/dev/null \
+              || gh issue create --title "$title" --body "$body"
+          fi

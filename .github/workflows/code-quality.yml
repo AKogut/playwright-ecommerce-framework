@@ -22,3 +22,23 @@ jobs:
         run: npm run lint
       - name: Run Prettier check
         run: npm run format
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Report moderate and low advisories
+        if: always()
+        run: |
+          set -euo pipefail
+          summary="$(npm audit --audit-level=low 2>&1 || true)"
+          if printf '%s' "$summary" | grep -q 'found 0 vulnerabilities'; then
+            echo "No advisories against the dependency tree." >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "### Dependency advisories below the failure threshold"
+              echo
+              echo '```'
+              printf '%s\n' "$summary" | tail -n 20
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi

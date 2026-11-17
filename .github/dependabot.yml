@@ -27,4 +27,7 @@ updates:
     groups:
       github-actions:
         patterns:
-          - '*'
+          - 'actions/*'
+      flakemetry-actions:
+        patterns:
+          - 'AKogut/flakemetry/*'

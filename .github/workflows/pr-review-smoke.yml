@@ -22,7 +22,7 @@ jobs:
     outputs:
       image: ${{ steps.resolve.outputs.image }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           sparse-checkout: package-lock.json
           sparse-checkout-cone-mode: false
@@ -79,9 +79,9 @@ jobs:
       TEST_TIMEOUT_MS: 30000
       EXPECT_TIMEOUT_MS: 5000
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 26
           cache: npm
@@ -100,7 +100,7 @@ jobs:
 
       - name: Upload run JSON (dashboard input)
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
@@ -109,7 +109,7 @@ jobs:
 
       - name: Upload Flakemetry batch
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: flakemetry-${{ github.job }}-${{ matrix.browser }}
           path: test-results/flakemetry/
@@ -118,7 +118,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: allure-results-${{ github.job }}-${{ matrix.browser }}
           path: allure-results/
@@ -127,7 +127,7 @@ jobs:
 
       - name: Upload Playwright HTML report
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-report-${{ github.job }}-${{ matrix.browser }}
           path: playwright-report/
@@ -136,7 +136,7 @@ jobs:
 
       - name: Upload test-results (failure media only)
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: test-results-${{ github.job }}-${{ matrix.browser }}
           path: test-results/
@@ -195,9 +195,9 @@ jobs:
       TEST_TIMEOUT_MS: 30000
       EXPECT_TIMEOUT_MS: 5000
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 26
           cache: npm
@@ -216,7 +216,7 @@ jobs:
 
       - name: Upload run JSON (dashboard input)
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
@@ -225,7 +225,7 @@ jobs:
 
       - name: Upload Flakemetry batch
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: flakemetry-${{ github.job }}-${{ matrix.browser }}
           path: test-results/flakemetry/
@@ -234,7 +234,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: allure-results-${{ github.job }}-${{ matrix.browser }}
           path: allure-results/
@@ -243,7 +243,7 @@ jobs:
 
       - name: Upload Playwright HTML report
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-report-${{ github.job }}-${{ matrix.browser }}
           path: playwright-report/
@@ -252,7 +252,7 @@ jobs:
 
       - name: Upload test-results (failure media only)
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: test-results-${{ github.job }}-${{ matrix.browser }}
           path: test-results/
@@ -311,9 +311,9 @@ jobs:
       TEST_TIMEOUT_MS: 30000
       EXPECT_TIMEOUT_MS: 5000
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 26
           cache: npm
@@ -332,7 +332,7 @@ jobs:
 
       - name: Upload run JSON (dashboard input)
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: run-json-${{ github.job }}-${{ matrix.browser }}
           path: test-results/json/results.json
@@ -341,7 +341,7 @@ jobs:
 
       - name: Upload Flakemetry batch
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: flakemetry-${{ github.job }}-${{ matrix.browser }}
           path: test-results/flakemetry/
@@ -350,7 +350,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: allure-results-${{ github.job }}-${{ matrix.browser }}
           path: allure-results/
@@ -359,7 +359,7 @@ jobs:
 
       - name: Upload Playwright HTML report
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-report-${{ github.job }}-${{ matrix.browser }}
           path: playwright-report/
@@ -368,7 +368,7 @@ jobs:
 
       - name: Upload test-results (failure media only)
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: test-results-${{ github.job }}-${{ matrix.browser }}
           path: test-results/
@@ -434,9 +434,9 @@ jobs:
       # Live Pages base — used to seed trend/history from the previous deploy.
       PAGES_BASE: https://akogut.github.io/playwright-ecommerce-framework
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 26
           cache: npm
@@ -445,7 +445,7 @@ jobs:
         run: npm ci
 
       - name: Download Allure raw results
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         continue-on-error: true
         with:
           pattern: allure-results-*
@@ -453,7 +453,7 @@ jobs:
           merge-multiple: false
 
       - name: Download run JSON reports
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         continue-on-error: true
         with:
           pattern: run-json-*
@@ -496,7 +496,7 @@ jobs:
 
       - name: Upload site bundle
         if: steps.build.outputs.has_site == 'true'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: site-bundle
           path: site/
@@ -520,16 +520,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Download site bundle
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: site-bundle
           path: _site
 
-      - uses: actions/configure-pages@v6
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: _site
 
       - id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
